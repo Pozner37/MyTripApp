@@ -9,6 +9,7 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Toast
+import com.example.mytrip.utils.getAllCountries
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
@@ -27,7 +28,7 @@ class FirstFragment : Fragment() {
         // Create buttons dynamically and add them to the layout
         for (i in 1..10) {
             val imageButton = ImageButton(requireContext())
-            imageButton.setImageResource(R.drawable.flag_of_israel)
+            imageButton.setImageResource(R.drawable.ic_launcher_background)
             val sizeInDp = 100
             val density = resources.displayMetrics.density
             val sizeInPixels = (sizeInDp * density).toInt()
@@ -42,6 +43,8 @@ class FirstFragment : Fragment() {
 
             // Add the button to the container
             buttonContainer.addView(imageButton)
+
+            getAllCountries()
         }
 
         return rootView
