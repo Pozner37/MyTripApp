@@ -1,6 +1,7 @@
 package com.example.mytrip
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -25,26 +26,28 @@ class FirstFragment : Fragment() {
         // Get the LinearLayout where you want to add buttons
         val buttonContainer = rootView.findViewById<LinearLayout>(R.id.buttonContainer)
 
+        val countries = await {getAllCountries()  }
+
         // Create buttons dynamically and add them to the layout
-        for (i in 1..10) {
-            val imageButton = ImageButton(requireContext())
-            imageButton.setImageResource(R.drawable.ic_launcher_background)
-            val sizeInDp = 100
-            val density = resources.displayMetrics.density
-            val sizeInPixels = (sizeInDp * density).toInt()
+        if (countries != null) {
+            for (country in countries) {
+                val imageButton = ImageButton(requireContext())
+                imageButton.setImageResource(R.drawable.ic_launcher_background)
+                val sizeInDp = 100
+                val density = resources.displayMetrics.density
+                val sizeInPixels = (sizeInDp * density).toInt()
 
-            val layoutParams = ViewGroup.LayoutParams(sizeInPixels, sizeInPixels)
-            imageButton.background = null
-            imageButton.scaleType = ImageView.ScaleType.CENTER_INSIDE
-            imageButton.layoutParams = layoutParams
-            imageButton.setOnClickListener {
-                Toast.makeText(context, "button works", Toast.LENGTH_SHORT).show()
+                val layoutParams = ViewGroup.LayoutParams(sizeInPixels, sizeInPixels)
+                imageButton.background = null
+                imageButton.scaleType = ImageView.ScaleType.CENTER_INSIDE
+                imageButton.layoutParams = layoutParams
+                imageButton.setOnClickListener {
+                    Toast.makeText(context, country.name.common, Toast.LENGTH_SHORT).show()
+                }
+
+                // Add the button to the container
+                buttonContainer.addView(imageButton)
             }
-
-            // Add the button to the container
-            buttonContainer.addView(imageButton)
-
-            getAllCountries()
         }
 
         return rootView

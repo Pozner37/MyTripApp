@@ -6,5 +6,5 @@ import retrofit2.http.GET
 interface CountriesApi {
 
     @GET("all")
-    fun getAllCountries(): Call<List<Country>>
+    suspend fun getAllCountries(): Call<List<Country>>
 }
