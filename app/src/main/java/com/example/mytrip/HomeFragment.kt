@@ -35,33 +35,7 @@ class HomeFragment : Fragment() {
 
         lifecycleScope.launch {
             try {
-                // Call the suspend function to get API response
-                val countries =  countriesApi.getAllCountries()
-
-                for (country in countries) {
-                    val buttonLayout = LayoutInflater.from(requireContext()).inflate(R.layout.grid_item_button_with_title, null)
-                    buttonLayout.layoutParams = GridLayout.LayoutParams().apply {
-                width = 0 // Set width to 0 to allow GridLayout to control it
-                height = GridLayout.LayoutParams.WRAP_CONTENT
-                rowSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f) // Adjust weight as needed
-                columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1, 1f) // Adjust weight as needed
-            }
-                    val imageButton: ImageButton = buttonLayout.findViewById(R.id.gridButton)
-                    val imageButtonTitle: TextView = buttonLayout.findViewById(R.id.gridButtonTitle)
-
-                    imageButton.setOnClickListener {
-                        Toast.makeText(context, country.name.common, Toast.LENGTH_SHORT).show()
-                    }
-
-                    Picasso.get().load(country.flags.png).into(imageButton)
-
-                    imageButtonTitle.text = country.name.common
-
-                   (buttonLayout.parent as? ViewGroup)?.removeView(buttonLayout)
-
-                    // Add the button to the container
-                    buttonContainer.addView(buttonLayout)
-                }
+                generateCountryButtons(countriesApi, buttonContainer)
             } catch (e: Exception) {
                 Log.e("HomePage", "Error while creating home page: ${e.message}")
             }
@@ -79,5 +53,33 @@ class HomeFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
 
+    }
+
+    private suspend fun generateCountryButtons(countriesApi: CountriesApiManager, buttonContainer: GridLayout) {
+        val countries =  countriesApi.getAllCountries()
+
+        for (country in countries) {
+            val buttonLayout = LayoutInflater.from(requireContext()).inflate(R.layout.grid_item_button_with_title, null)
+            buttonLayout.layoutParams = GridLayout.LayoutParams().apply {
+                width = 0
+                height = GridLayout.LayoutParams.WRAP_CONTENT
+                rowSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f)
+                columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1,1f)
+            }
+            val imageButton: ImageButton = buttonLayout.findViewById(R.id.gridButton)
+            val imageButtonTitle: TextView = buttonLayout.findViewById(R.id.gridButtonTitle)
+
+            imageButton.setOnClickListener {
+                Toast.makeText(context, country.name.common, Toast.LENGTH_SHORT).show()
+            }
+
+            Picasso.get().load(country.flags.png).into(imageButton)
+
+            imageButtonTitle.text = country.name.common
+
+            (buttonLayout.parent as? ViewGroup)?.removeView(buttonLayout)
+
+            buttonContainer.addView(buttonLayout)
+        }
     }
 }
