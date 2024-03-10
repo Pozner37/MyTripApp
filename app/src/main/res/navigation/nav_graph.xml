@@ -25,4 +25,10 @@
             android:id="@+id/action_SecondFragment_to_FirstFragment"
             app:destination="@id/FirstFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/PostsFragment"
+        android:name="com.example.mytrip.posts.PostsFragment"
+        android:label="Posts Fragment"
+        tools:layout="@layout/fragment_country_posts">
+    </fragment>
 </navigation>
