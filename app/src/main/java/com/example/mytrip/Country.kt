@@ -1,5 +1,7 @@
 package com.example.mytrip
 
+import com.google.gson.annotations.SerializedName
+
 data class CountryName (
     val common: String
 )
@@ -9,6 +11,6 @@ data class CountryFlag (
 )
 
 data class Country(
-    val name: CountryName,
-    val flags: CountryFlag
+    @SerializedName("name") val name: CountryName,
+    @SerializedName("flags") val flags: CountryFlag
 )
