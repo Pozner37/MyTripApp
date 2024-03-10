@@ -9,9 +9,8 @@
         android:id="@+id/buttonContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:columnCount="4"
-        android:rowCount="4"
-        android:padding="16dp">
+        android:columnCount="3"
+        android:padding="12dp">
         <!-- Buttons will be added here programmatically -->
     </GridLayout>
 </androidx.core.widget.NestedScrollView>

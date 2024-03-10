@@ -1,0 +1,24 @@
+
+
+    <!-- res/layout/grid_item_button_with_title.xml -->
+    <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+    android:orientation="vertical">
+
+        <ImageButton
+            android:id="@+id/gridButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="centerInside"
+            android:background="@color/white" />
+
+        <TextView
+            android:id="@+id/gridButtonTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:textColor="@android:color/black"/>
+    </GridLayout>
