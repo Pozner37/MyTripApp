@@ -5,7 +5,6 @@ import com.example.mytrip.Country
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.Retrofit
-import retrofit2.await
 import retrofit2.converter.gson.GsonConverterFactory
 
 class CountriesApiManager {
@@ -17,7 +16,7 @@ class CountriesApiManager {
 
     suspend fun getAllCountries(): List<Country> {
         return withContext(Dispatchers.IO) {
-            api.getAllCountries().await()
+            api.getAllCountries()
         }
     }
 }

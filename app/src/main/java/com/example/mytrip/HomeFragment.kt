@@ -6,12 +6,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.GridLayout
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import com.example.mytrip.utils.CountriesApiManager
+import com.squareup.picasso.Picasso
 import kotlinx.coroutines.launch
 
 /**
@@ -26,7 +28,7 @@ class HomeFragment : Fragment() {
         val rootView = inflater.inflate(R.layout.home_fragment, container, false)
 
         // Get the LinearLayout where you want to add buttons
-        val buttonContainer = rootView.findViewById<LinearLayout>(R.id.buttonContainer)
+        val buttonContainer = rootView.findViewById<GridLayout>(R.id.buttonContainer)
 
         val countriesApi = CountriesApiManager()
 
@@ -37,7 +39,7 @@ class HomeFragment : Fragment() {
 
                 for (country in countries) {
                     val imageButton = ImageButton(requireContext())
-                    imageButton.setImageResource(R.drawable.ic_launcher_background)
+//                    imageButton.setImageResource(R.drawable.ic_launcher_background)
                     val sizeInDp = 100
                     val density = resources.displayMetrics.density
                     val sizeInPixels = (sizeInDp * density).toInt()
@@ -49,6 +51,10 @@ class HomeFragment : Fragment() {
                     imageButton.setOnClickListener {
                         Toast.makeText(context, country.name.common, Toast.LENGTH_SHORT).show()
                     }
+
+                    val imageUrl = country.flags.png
+
+                    Picasso.get().load(imageUrl).into(imageButton)
 
                     // Add the button to the container
                     buttonContainer.addView(imageButton)
