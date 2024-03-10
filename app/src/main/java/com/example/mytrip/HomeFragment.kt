@@ -27,7 +27,6 @@ class HomeFragment : Fragment() {
     ): View? {
         val rootView = inflater.inflate(R.layout.home_fragment, container, false)
 
-        // Get the LinearLayout where you want to add buttons
         val buttonContainer = rootView.findViewById<GridLayout>(R.id.buttonContainer)
 
         val countriesApi = CountriesApiManager()
@@ -39,7 +38,6 @@ class HomeFragment : Fragment() {
 
                 for (country in countries) {
                     val imageButton = ImageButton(requireContext())
-//                    imageButton.setImageResource(R.drawable.ic_launcher_background)
                     val sizeInDp = 100
                     val density = resources.displayMetrics.density
                     val sizeInPixels = (sizeInDp * density).toInt()
@@ -60,7 +58,6 @@ class HomeFragment : Fragment() {
                     buttonContainer.addView(imageButton)
                 }
             } catch (e: Exception) {
-                // Handle errors
                 Log.e("YourFragment", "Error fetching data: ${e.message}")
             }
         }
