@@ -7,16 +7,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mytrip.CountryFragment
 import com.example.mytrip.R
-import com.example.mytrip.SecondFragment
-import com.example.mytrip.common.PostBaseFragment
 import com.example.mytrip.models.Post
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class PostsFragment : Fragment(), PostCardsAdapter.OnPostItemClickListener {
     private lateinit var recyclerView: RecyclerView
@@ -70,7 +66,7 @@ class PostsFragment : Fragment(), PostCardsAdapter.OnPostItemClickListener {
         observePostViewModel(recyclerView, viewModel.countryPosts)
     }
 
-    fun setOnPostItemClickListener(listener: SecondFragment) {
+    fun setOnPostItemClickListener(listener: CountryFragment) {
         onPostItemClickListener = listener
     }
 

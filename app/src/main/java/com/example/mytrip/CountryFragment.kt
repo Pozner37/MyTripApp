@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
-import com.example.mytrip.databinding.FragmentSecondBinding
+import com.example.mytrip.databinding.CountryPageBinding
 import com.example.mytrip.posts.PostViewModel
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
@@ -18,26 +18,21 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.Marker
 
 
-/**
- * A simple [Fragment] subclass as the second destination in the navigation.
- */
-class SecondFragment : Fragment(), OnMapReadyCallback, PostsFragment.OnPostItemClickListener, GoogleMap.OnMarkerClickListener {
+class CountryFragment : Fragment(), OnMapReadyCallback, PostsFragment.OnPostItemClickListener, GoogleMap.OnMarkerClickListener {
 
-    private var _binding: FragmentSecondBinding? = null
+    private var _binding: CountryPageBinding? = null
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     private lateinit var viewModel: PostViewModel
     private lateinit var map: GoogleMap
 
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
 
-        _binding = FragmentSecondBinding.inflate(inflater, container, false)
+        _binding = CountryPageBinding.inflate(inflater, container, false)
 
         viewModel = ViewModelProvider(this).get(PostViewModel::class.java)
         val mapFragment = childFragmentManager.findFragmentById(R.id.map_fragment) as SupportMapFragment
@@ -54,14 +49,14 @@ class SecondFragment : Fragment(), OnMapReadyCallback, PostsFragment.OnPostItemC
         map = googleMap
         map.setOnMarkerClickListener(this)
         viewModel.countryPosts.observe(viewLifecycleOwner, Observer {
-            posts -> posts.forEach{post ->
-                val marker = map.addMarker(MarkerOptions().position(post.position))
+                posts -> posts.forEach{post ->
+            val marker = map.addMarker(MarkerOptions().position(post.position))
             if (marker != null) {
                 marker.tag = post.name
             }
         }
         })
-     //   map.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(34.0,32.0), 12f))
+        //   map.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(34.0,32.0), 12f))
     }
 
 
