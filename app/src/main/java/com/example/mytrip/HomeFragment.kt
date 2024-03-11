@@ -14,6 +14,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.example.mytrip.utils.CountriesApiManager
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.launch
@@ -70,7 +71,8 @@ class HomeFragment : Fragment() {
             val imageButtonTitle: TextView = buttonLayout.findViewById(R.id.gridButtonTitle)
 
             imageButton.setOnClickListener {
-                Toast.makeText(context, country.name.common, Toast.LENGTH_SHORT).show()
+                val action = HomeFragmentDirections.actionHomeFragmentToCountryFragment(country)
+                findNavController().navigate(action)
             }
 
             Picasso.get().load(country.flags.png).into(imageButton)

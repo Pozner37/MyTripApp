@@ -1,6 +1,6 @@
 package com.example.mytrip
 
-import retrofit2.Call
+import com.example.mytrip.classes.Country
 import retrofit2.http.GET
 
 interface CountriesApi {

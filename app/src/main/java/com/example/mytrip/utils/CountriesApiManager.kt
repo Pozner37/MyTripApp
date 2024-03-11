@@ -1,7 +1,7 @@
 package com.example.mytrip.utils
 
 import com.example.mytrip.CountriesApi
-import com.example.mytrip.Country
+import com.example.mytrip.classes.Country
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.Retrofit
