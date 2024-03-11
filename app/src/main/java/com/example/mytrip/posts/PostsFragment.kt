@@ -28,9 +28,9 @@ class PostsFragment : Fragment(), PostCardsAdapter.OnPostItemClickListener {
         posts: LiveData<MutableList<Post>>?
     ) {
         posts?.observe(viewLifecycleOwner) { currPosts: List<Post> ->
-            val reviewCardsAdapter = PostCardsAdapter(currPosts)
-            reviewCardsAdapter.setOnPostItemClickListener(this)
-            recyclerView.adapter = reviewCardsAdapter
+            val postCardsAdapter = PostCardsAdapter(currPosts)
+            postCardsAdapter.setOnPostItemClickListener(this)
+            recyclerView.adapter = postCardsAdapter
             //closeKeyboard(requireContext(), requireView())
         }
     }
