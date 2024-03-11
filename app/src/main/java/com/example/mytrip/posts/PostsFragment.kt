@@ -10,7 +10,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.mytrip.CountryFragment
+import com.example.mytrip.CountryPageFragment
 import com.example.mytrip.R
 import com.example.mytrip.models.Post
 
@@ -66,7 +66,7 @@ class PostsFragment : Fragment(), PostCardsAdapter.OnPostItemClickListener {
         observePostViewModel(recyclerView, viewModel.countryPosts)
     }
 
-    fun setOnPostItemClickListener(listener: CountryFragment) {
+    fun setOnPostItemClickListener(listener: CountryPageFragment) {
         onPostItemClickListener = listener
     }
 

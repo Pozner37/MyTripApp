@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center_horizontal"
-    tools:context=".CountryFragment">
+    tools:context=".CountryPageFragment">
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/custom_posts_fragment"

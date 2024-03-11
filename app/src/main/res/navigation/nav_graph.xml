@@ -17,7 +17,7 @@
     </fragment>
     <fragment
         android:id="@+id/CountryPageFragment"
-        android:name="com.example.mytrip.CountryFragment"
+        android:name="com.example.mytrip.CountryPageFragment"
         android:label="@string/country_page_label"
         tools:layout="@layout/country_page">
 
