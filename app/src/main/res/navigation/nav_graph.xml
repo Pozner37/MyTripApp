@@ -13,16 +13,19 @@
 
         <action
             android:id="@+id/action_HomeFragment_to_CountryFragment"
-            app:destination="@id/CountryFragment" />
+            app:destination="@id/CountryPageFragment" />
     </fragment>
     <fragment
-        android:id="@+id/CountryFragment"
-        android:name="com.example.mytrip.CountryFragment"
-        tools:layout="@layout/country_fragment">
-
-        <action
-            android:id="@+id/action_CountryFragment_to_HomeFragment"
-            app:destination="@id/HomeFragment" />
+        android:id="@+id/CountryPageFragment"
+        android:name="com.example.mytrip.CountryPageFragment"
+        android:label="Country Page"
+        tools:layout="@layout/country_page">
         <argument android:name="country" app:argType="com.example.mytrip.classes.Country"/>
+    </fragment>
+    <fragment
+        android:id="@+id/PostsFragment"
+        android:name="com.example.mytrip.posts.PostsFragment"
+        android:label="Posts Fragment"
+        tools:layout="@layout/fragment_country_posts">
     </fragment>
 </navigation>
