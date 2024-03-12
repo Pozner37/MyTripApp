@@ -1,9 +1,9 @@
-package com.example.mytrip.posts
+package com.mytrip.posts
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.mytrip.classes.Post
+import com.mytrip.classes.Post
 import com.google.android.gms.maps.model.LatLng
 
 

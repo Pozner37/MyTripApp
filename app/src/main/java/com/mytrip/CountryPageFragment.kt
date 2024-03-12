@@ -1,23 +1,22 @@
-package com.example.mytrip
+package com.mytrip
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toolbar
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import com.example.mytrip.databinding.CountryPageBinding
-import com.example.mytrip.posts.PostViewModel
+import com.mytrip.posts.PostViewModel
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
+import com.example.mytrip.R
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.MarkerOptions
-import com.example.mytrip.posts.PostsFragment
+import com.mytrip.posts.PostsFragment
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.Marker
 import viewModels.CountryFragmentViewModel
