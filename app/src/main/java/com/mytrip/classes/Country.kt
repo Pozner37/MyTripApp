@@ -1,4 +1,4 @@
-package com.example.mytrip.classes
+package com.mytrip.classes
 
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable

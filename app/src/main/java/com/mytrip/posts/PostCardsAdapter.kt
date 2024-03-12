@@ -1,16 +1,15 @@
-package com.example.mytrip.posts
+package com.mytrip.posts
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.core.util.toHalf
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mytrip.R
-import com.example.mytrip.classes.Post
+import com.mytrip.classes.Post
 
 
 class PostCardsAdapter(private val posts: List<Post>) :

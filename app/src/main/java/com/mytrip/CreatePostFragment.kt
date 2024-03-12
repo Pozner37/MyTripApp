@@ -1,23 +1,20 @@
-package com.example.mytrip
+package com.mytrip
 
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
-import com.example.mytrip.classes.Post
+import com.example.mytrip.R
+import com.mytrip.classes.Post
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.tflite.acceleration.Model
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
-import kotlinx.coroutines.runBlocking
 
 class CreatePostFragment : Fragment() {
     private lateinit var view: View

@@ -1,4 +1,4 @@
-package com.example.mytrip.classes
+package com.mytrip.classes
 
 import com.google.android.gms.maps.model.LatLng
 

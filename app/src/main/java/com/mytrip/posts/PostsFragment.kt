@@ -1,4 +1,4 @@
-package com.example.mytrip.posts
+package com.mytrip.posts
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,9 +10,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.mytrip.CountryPageFragment
+import com.mytrip.CountryPageFragment
 import com.example.mytrip.R
-import com.example.mytrip.classes.Post
+import com.mytrip.classes.Post
 
 class PostsFragment : Fragment(), PostCardsAdapter.OnPostItemClickListener {
     private lateinit var recyclerView: RecyclerView

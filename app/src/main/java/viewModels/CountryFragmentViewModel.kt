@@ -1,9 +1,9 @@
 package viewModels
 
 import androidx.lifecycle.ViewModel
-import com.example.mytrip.classes.Country
-import com.example.mytrip.classes.CountryFlag
-import com.example.mytrip.classes.CountryName
+import com.mytrip.classes.Country
+import com.mytrip.classes.CountryFlag
+import com.mytrip.classes.CountryName
 
 class CountryFragmentViewModel: ViewModel() {
     private var country: Country = Country(CountryName("placeholder"), CountryFlag("placeholder"))
