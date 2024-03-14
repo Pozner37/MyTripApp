@@ -1,4 +1,4 @@
-package com.example.mytrip
+package com.mytrip
 
 import org.junit.Test
 

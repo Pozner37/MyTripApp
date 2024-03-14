@@ -9,7 +9,6 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
-import com.example.mytrip.R
 import com.mytrip.classes.Post
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.button.MaterialButton

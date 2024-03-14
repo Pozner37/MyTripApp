@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.core.util.toHalf
 import androidx.recyclerview.widget.RecyclerView
-import com.example.mytrip.R
+import com.mytrip.R
 import com.mytrip.classes.Post
 
 

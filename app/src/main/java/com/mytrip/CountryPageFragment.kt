@@ -7,13 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
-import com.example.mytrip.databinding.CountryPageBinding
+import com.mytrip.databinding.CountryPageBinding
 import com.mytrip.posts.PostViewModel
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.example.mytrip.R
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.MarkerOptions
 import com.mytrip.posts.PostsFragment
@@ -44,6 +44,12 @@ class CountryPageFragment : Fragment(), OnMapReadyCallback, PostsFragment.OnPost
         val mapFragment = childFragmentManager.findFragmentById(R.id.map_fragment) as SupportMapFragment
         mapFragment.getMapAsync(this)
         countryViewModel.setCountry(args.country);
+
+        _binding!!.fab.setOnClickListener { view ->
+            val action = CountryPageFragmentDirections.actionCountryPageFragmentToCreatePostFragment(args.country)
+            findNavController().navigate(action)
+        }
+
         return binding.root
     }
 

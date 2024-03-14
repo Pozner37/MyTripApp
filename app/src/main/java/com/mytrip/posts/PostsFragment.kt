@@ -11,7 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mytrip.CountryPageFragment
-import com.example.mytrip.R
+import com.mytrip.R
 import com.mytrip.classes.Post
 
 class PostsFragment : Fragment(), PostCardsAdapter.OnPostItemClickListener {

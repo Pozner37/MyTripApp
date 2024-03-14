@@ -11,7 +11,7 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.example.mytrip.R
+import com.mytrip.R
 import com.mytrip.utils.CountriesApiManager
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.launch
@@ -68,7 +68,6 @@ class HomeFragment : Fragment() {
             val imageButtonTitle: TextView = buttonLayout.findViewById(R.id.gridButtonTitle)
 
             imageButton.setOnClickListener {
-              //  val action = HomeFragmentDirections.actionHomeFragmentToCountryFragment(country)
                 val action = HomeFragmentDirections.actionHomeFragmentToCountryFragment(country)
                 findNavController().navigate(action)
             }

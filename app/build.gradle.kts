@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.mytrip"
+    namespace = "com.mytrip"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.mytrip"
+        applicationId = "com.mytrip"
         minSdk = 26
         targetSdk = 34
         versionCode = 1
@@ -51,6 +51,7 @@ dependencies {
     implementation("androidx.room:room-common:2.6.1")
     implementation("androidx.room:room-runtime:2.6.1")
     implementation("com.google.firebase:firebase-firestore-ktx:24.10.3")
+    implementation("com.google.firebase:firebase-common-ktx:20.4.2")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
