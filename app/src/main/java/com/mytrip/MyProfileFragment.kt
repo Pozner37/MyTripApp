@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import com.mytrip.databinding.CountryPageBinding
@@ -25,9 +26,8 @@ import com.mytrip.classes.Post
 import viewModels.CountryFragmentViewModel
 
 
-class CountryPageFragment : BasePostMapFragment() {
+class MyProfileFragment : BasePostMapFragment() {
 
-    private val args: CountryPageFragmentArgs by navArgs()
     private val viewModel by activityViewModels<PostViewModel>()
 
     override fun onCreateView(
@@ -36,16 +36,12 @@ class CountryPageFragment : BasePostMapFragment() {
     ): View? {
         val view: View? = super.onCreateView(inflater, container, savedInstanceState)
         viewModel.setPosts(mutableListOf(
-            Post("1",args.country.name.common,"Post 1","picture", LatLng(32.0,35.0)),
-            Post("2",args.country.name.common,"Post 2","picture", LatLng(33.0,34.0)),
-            Post("3",args.country.name.common,"Post 3","picture", LatLng(31.0,35.0)),
-            Post("4",args.country.name.common,"Post 4","picture", LatLng(31.0,35.5))
+            Post("1","Israel","My Post 1","picture", LatLng(32.0,35.0)),
+            Post("2","Israel","My Post 2","picture", LatLng(33.0,34.0)),
+            Post("3","Israel","My Post 3","picture", LatLng(31.0,35.0)),
+            Post("4","Israel","My Post 4","picture", LatLng(31.0,35.5))
         ))
-
-        view?.findViewById<FloatingActionButton>(R.id.fab)?.setOnClickListener { view ->
-            val action = CountryPageFragmentDirections.actionCountryPageFragmentToCreatePostFragment(args.country)
-            findNavController().navigate(action)
-        }
+        view?.findViewById<FloatingActionButton>(R.id.fab)?.isVisible = false;
         return view;
     }
 }

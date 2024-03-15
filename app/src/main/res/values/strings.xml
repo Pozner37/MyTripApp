@@ -48,4 +48,5 @@
     <string name="submit">Submit</string>
     <string name="upload_picture">Upload Picture</string>
     <string name="describe_your_trip">Describe your trip</string>
+    <string name="add_post">Add Post</string>
 </resources>

@@ -30,11 +30,6 @@ class MainActivity : AppCompatActivity() {
         navController = findNavController(R.id.nav_host_fragment_content_main)
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
-
-        binding.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -53,7 +48,7 @@ class MainActivity : AppCompatActivity() {
                 true;
             }
             R.id.menu_my_profile -> {
-                navController.navigate(R.id.HomeFragment)
+                navController.navigate(R.id.MyProfileFragment)
                 true;
             }
             else -> super.onOptionsItemSelected(item)

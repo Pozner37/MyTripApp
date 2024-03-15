@@ -32,6 +32,11 @@
         tools:layout="@layout/fragment_country_posts">
     </fragment>
     <fragment
+        android:id="@+id/MyProfileFragment"
+        android:name="com.mytrip.MyProfileFragment"
+        android:label="My Profile"
+        tools:layout="@layout/country_page" />
+    <fragment
         android:id="@+id/createPostFragment"
         android:name="com.mytrip.CreatePostFragment"
         android:label="CreatePostFragment" >
