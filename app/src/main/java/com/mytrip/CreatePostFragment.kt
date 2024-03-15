@@ -9,6 +9,7 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import com.mytrip.classes.Post
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.button.MaterialButton
@@ -21,6 +22,8 @@ class CreatePostFragment : Fragment() {
     private lateinit var attachPictureButton: ImageButton
     private lateinit var submitButton: MaterialButton
     private var attachedPicture: Uri = Uri.EMPTY
+
+    private val args: CountryPageFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -73,7 +76,7 @@ class CreatePostFragment : Fragment() {
         }
 
         val newPost = Post(
-            description.text.toString(), position = LatLng(23.123,234.23)
+            "sdsd", args.country.name.common ,description.text.toString(), "testPictureURL",position = LatLng(23.123,234.23)
         )
 
 //        Model.instance.addPost(newPost, attachedPicture) {

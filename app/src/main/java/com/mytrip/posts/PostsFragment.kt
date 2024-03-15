@@ -77,7 +77,7 @@ class PostsFragment : Fragment(), PostCardsAdapter.OnPostItemClickListener {
 
     fun onMarkerClicked(postId: String) {
         viewModel.countryPosts.observe(viewLifecycleOwner, Observer {
-                posts -> val index  = posts.indexOfFirst { post -> post.name === postId }
+                posts -> val index  = posts.indexOfFirst { post -> post.id === postId }
             recyclerView.scrollToPosition(index)
         })
     }

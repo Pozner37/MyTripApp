@@ -60,7 +60,7 @@ class CountryPageFragment : Fragment(), OnMapReadyCallback, PostsFragment.OnPost
                 posts -> posts.forEach{post ->
             val marker = map.addMarker(MarkerOptions().position(post.position))
             if (marker != null) {
-                marker.tag = post.name
+                marker.tag = post.id
             }
         }
         })
@@ -82,7 +82,7 @@ class CountryPageFragment : Fragment(), OnMapReadyCallback, PostsFragment.OnPost
     override fun onPostItemClicked(postId: String) {
         viewModel.countryPosts.observe(viewLifecycleOwner, Observer {
                 posts ->
-            val currPost = posts.find{curr -> curr.name === postId };
+            val currPost = posts.find{curr -> curr.id === postId };
             if (currPost != null) {
                 map.moveCamera(CameraUpdateFactory.newLatLngZoom(currPost.position, 9f))
             }

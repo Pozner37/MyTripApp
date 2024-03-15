@@ -40,9 +40,9 @@ class PostCardsAdapter(private val posts: List<Post>) :
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
         val post = posts[position]
 
-        holder.title.text = post.name
-        holder.type.text = post.name.toString()
-        holder.description.text = post.name
+        holder.title.text = post.countryName
+        holder.type.text = post.countryName
+        holder.description.text = post.description
         holder.rating.text = "Lat: ${post.position.latitude.toHalf()}, Lon: ${post.position.longitude.toHalf()}"
         handleClicksCard(holder, position);
     }
@@ -54,7 +54,7 @@ class PostCardsAdapter(private val posts: List<Post>) :
     private fun handleClicksCard(holder: PostViewHolder, position: Int) {
         val post = posts[position]
         holder.card.setOnClickListener {
-            onPostItemClickListener?.onPostItemClicked(post.name)
+            onPostItemClickListener?.onPostItemClicked(post.id)
         }
     }
 

@@ -17,16 +17,16 @@ class PostViewModel : ViewModel() {
     init {
         // Initialize with dummy data (replace with your actual data source)
         val dummyPosts = mutableListOf(
-            Post("Post 1", LatLng(32.0, 35.0)),
-            Post("Post 2", LatLng(32.3, 34.1)),
-            Post("Post 3", LatLng(32.5, 34.5))
+            Post("Post1","Israel", "very fun", "tempPictureUrl", LatLng(32.0, 35.0)),
+            Post("Post2","Israel", "very fun", "tempPictureUrl", LatLng(32.3, 34.1)),
+            Post("Post3","Israel", "very fun", "tempPictureUrl", LatLng(32.5, 34.5))
         )
         _countryPosts.value = dummyPosts;
 
         // Initialize myPosts with dummy data (replace with your actual data source)
         val dummyMyPosts = mutableListOf(
-            Post("My Post 1", LatLng(37.7128, -74.0060)),
-            Post("My Post 2", LatLng(37.7128, -74.0060))
+            Post("MyPost1","Israel", "very fun", "tempPictureUrl", LatLng(37.7128, -74.0060)),
+            Post("MyPost2","Israel", "very fun", "tempPictureUrl", LatLng(37.7128, -74.0060))
         )
         _myPosts.value = dummyMyPosts
     }
