@@ -1,7 +1,6 @@
 package com.mytrip
 
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -10,7 +9,6 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
 import androidx.navigation.NavController
-import com.mytrip.R
 import com.mytrip.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {

@@ -6,27 +6,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModelProvider
-import com.mytrip.databinding.CountryPageBinding
 import com.mytrip.posts.PostViewModel
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.MarkerOptions
 import com.mytrip.posts.PostsFragment
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.Marker
-import com.mytrip.classes.Post
-import viewModels.CountryFragmentViewModel
+import com.mytrip.databinding.PostsWithMapBinding
 
 
 abstract class BasePostMapFragment : Fragment(), OnMapReadyCallback, PostsFragment.OnPostItemClickListener, GoogleMap.OnMarkerClickListener {
 
-    private var _binding: CountryPageBinding? = null
+    private var _binding: PostsWithMapBinding? = null
 
     private val binding get() = _binding!!
     private lateinit var map: GoogleMap
@@ -37,7 +31,7 @@ abstract class BasePostMapFragment : Fragment(), OnMapReadyCallback, PostsFragme
         savedInstanceState: Bundle?
     ): View? {
 
-        _binding = CountryPageBinding.inflate(inflater, container, false)
+        _binding = PostsWithMapBinding.inflate(inflater, container, false)
 
         val mapFragment = childFragmentManager.findFragmentById(R.id.map_fragment) as SupportMapFragment
         mapFragment.getMapAsync(this)
@@ -56,7 +50,6 @@ abstract class BasePostMapFragment : Fragment(), OnMapReadyCallback, PostsFragme
             }
         }
         })
-        //   map.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(34.0,32.0), 12f))
     }
 
 

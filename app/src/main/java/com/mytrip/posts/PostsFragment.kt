@@ -11,7 +11,6 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mytrip.BasePostMapFragment
-import com.mytrip.CountryPageFragment
 import com.mytrip.R
 import com.mytrip.classes.Post
 
@@ -37,7 +36,7 @@ class PostsFragment : Fragment(), PostCardsAdapter.OnPostItemClickListener {
     }
 
     fun getLayoutResourceId(): Int {
-        return R.layout.fragment_country_posts
+        return R.layout.posts_list_fragment
     }
 
     override fun onCreateView(
