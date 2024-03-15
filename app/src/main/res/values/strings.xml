@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">MyTrip</string>
-    <string name="action_settings">Settings</string>
+    <string name="home">Home</string>
+    <string name="my_profile">My Profile</string>
     <!-- Strings used for fragments for navigation -->
     <string name="home_fragment_label">MyTrip</string>
     <string name="country_fragment_label">Second Fragment</string>
