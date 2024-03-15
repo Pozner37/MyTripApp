@@ -1,0 +1,82 @@
+package com.mytrip
+
+import android.os.Bundle
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
+import com.mytrip.posts.PostViewModel
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.SupportMapFragment
+import androidx.lifecycle.Observer
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.model.MarkerOptions
+import com.mytrip.posts.PostsFragment
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.model.Marker
+import com.mytrip.databinding.PostsWithMapBinding
+
+
+abstract class BasePostMapFragment : Fragment(), OnMapReadyCallback, PostsFragment.OnPostItemClickListener, GoogleMap.OnMarkerClickListener {
+
+    private var _binding: PostsWithMapBinding? = null
+
+    private val binding get() = _binding!!
+    private lateinit var map: GoogleMap
+    private val viewModel by activityViewModels<PostViewModel>()
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+
+        _binding = PostsWithMapBinding.inflate(inflater, container, false)
+
+        val mapFragment = childFragmentManager.findFragmentById(R.id.map_fragment) as SupportMapFragment
+        mapFragment.getMapAsync(this)
+
+        return binding.root
+    }
+
+    override fun onMapReady(googleMap: GoogleMap) {
+        map = googleMap
+        map.setOnMarkerClickListener(this)
+        viewModel.posts?.observe(viewLifecycleOwner, Observer {
+                posts -> posts.forEach{post ->
+            val marker = map.addMarker(MarkerOptions().position(post.position))
+            if (marker != null) {
+                marker.tag = post.id
+            }
+        }
+        })
+    }
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.customPostsFragment.getFragment<PostsFragment>().setOnPostItemClickListener(this)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    override fun onPostItemClicked(postId: String) {
+        viewModel.posts?.observe(viewLifecycleOwner, Observer {
+                posts ->
+            val currPost = posts.find{curr -> curr.id === postId };
+            if (currPost != null) {
+                map.moveCamera(CameraUpdateFactory.newLatLngZoom(currPost.position, 9f))
+            }
+        })
+    }
+
+    override fun onMarkerClick(clickedMarker: Marker): Boolean {
+        map.moveCamera( CameraUpdateFactory.newLatLngZoom(clickedMarker.position, 9f))
+        binding.customPostsFragment.getFragment<PostsFragment>().onMarkerClicked(clickedMarker.tag.toString())
+        return true;
+    }
+}

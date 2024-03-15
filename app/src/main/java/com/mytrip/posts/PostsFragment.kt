@@ -10,7 +10,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.mytrip.CountryPageFragment
+import com.mytrip.BasePostMapFragment
 import com.mytrip.R
 import com.mytrip.classes.Post
 
@@ -36,7 +36,7 @@ class PostsFragment : Fragment(), PostCardsAdapter.OnPostItemClickListener {
     }
 
     fun getLayoutResourceId(): Int {
-        return R.layout.fragment_country_posts
+        return R.layout.posts_list_fragment
     }
 
     override fun onCreateView(
@@ -63,10 +63,10 @@ class PostsFragment : Fragment(), PostCardsAdapter.OnPostItemClickListener {
     }
 
     private fun observePostViewModel() {
-        observePostViewModel(recyclerView, viewModel.countryPosts)
+        observePostViewModel(recyclerView, viewModel.posts)
     }
 
-    fun setOnPostItemClickListener(listener: CountryPageFragment) {
+    fun setOnPostItemClickListener(listener: BasePostMapFragment) {
         onPostItemClickListener = listener
     }
 
@@ -76,7 +76,7 @@ class PostsFragment : Fragment(), PostCardsAdapter.OnPostItemClickListener {
     }
 
     fun onMarkerClicked(postId: String) {
-        viewModel.countryPosts.observe(viewLifecycleOwner, Observer {
+        viewModel.posts.observe(viewLifecycleOwner, Observer {
                 posts -> val index  = posts.indexOfFirst { post -> post.id === postId }
             recyclerView.scrollToPosition(index)
         })

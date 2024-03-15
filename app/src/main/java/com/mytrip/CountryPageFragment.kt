@@ -1,97 +1,39 @@
 package com.mytrip
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProvider
-import com.mytrip.databinding.CountryPageBinding
 import com.mytrip.posts.PostViewModel
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.SupportMapFragment
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.model.MarkerOptions
-import com.mytrip.posts.PostsFragment
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.model.Marker
-import viewModels.CountryFragmentViewModel
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.mytrip.classes.Post
 
 
-class CountryPageFragment : Fragment(), OnMapReadyCallback, PostsFragment.OnPostItemClickListener, GoogleMap.OnMarkerClickListener {
-
-    private var _binding: CountryPageBinding? = null
+class CountryPageFragment : BasePostMapFragment() {
 
     private val args: CountryPageFragmentArgs by navArgs()
-
-    private val binding get() = _binding!!
-    private val countryViewModel by activityViewModels<CountryFragmentViewModel>()
-    private lateinit var viewModel: PostViewModel
-    private lateinit var map: GoogleMap
+    private val viewModel by activityViewModels<PostViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        val view: View? = super.onCreateView(inflater, container, savedInstanceState)
+        viewModel.setPosts(mutableListOf(
+            Post("1",args.country.name.common,"Post 1","picture", LatLng(32.0,35.0)),
+            Post("2",args.country.name.common,"Post 2","picture", LatLng(33.0,34.0)),
+            Post("3",args.country.name.common,"Post 3","picture", LatLng(31.0,35.0)),
+            Post("4",args.country.name.common,"Post 4","picture", LatLng(31.0,35.5))
+        ))
 
-        _binding = CountryPageBinding.inflate(inflater, container, false)
-
-        viewModel = ViewModelProvider(this).get(PostViewModel::class.java)
-        val mapFragment = childFragmentManager.findFragmentById(R.id.map_fragment) as SupportMapFragment
-        mapFragment.getMapAsync(this)
-        countryViewModel.setCountry(args.country);
-
-        _binding!!.fab.setOnClickListener { view ->
+        view?.findViewById<FloatingActionButton>(R.id.fab)?.setOnClickListener { view ->
             val action = CountryPageFragmentDirections.actionCountryPageFragmentToCreatePostFragment(args.country)
             findNavController().navigate(action)
         }
-
-        return binding.root
-    }
-
-    override fun onMapReady(googleMap: GoogleMap) {
-        map = googleMap
-        map.setOnMarkerClickListener(this)
-        viewModel.countryPosts.observe(viewLifecycleOwner, Observer {
-                posts -> posts.forEach{post ->
-            val marker = map.addMarker(MarkerOptions().position(post.position))
-            if (marker != null) {
-                marker.tag = post.id
-            }
-        }
-        })
-        //   map.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(34.0,32.0), 12f))
-    }
-
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        binding.customPostsFragment.getFragment<PostsFragment>().setOnPostItemClickListener(this)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
-    override fun onPostItemClicked(postId: String) {
-        viewModel.countryPosts.observe(viewLifecycleOwner, Observer {
-                posts ->
-            val currPost = posts.find{curr -> curr.id === postId };
-            if (currPost != null) {
-                map.moveCamera(CameraUpdateFactory.newLatLngZoom(currPost.position, 9f))
-            }
-        })
-    }
-
-    override fun onMarkerClick(clickedMarker: Marker): Boolean {
-        map.moveCamera( CameraUpdateFactory.newLatLngZoom(clickedMarker.position, 9f))
-        binding.customPostsFragment.getFragment<PostsFragment>().onMarkerClicked(clickedMarker.tag.toString())
-        return true;
+        return view;
     }
 }

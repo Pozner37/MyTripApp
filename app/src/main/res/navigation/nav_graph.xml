@@ -19,7 +19,7 @@
         android:id="@+id/CountryPageFragment"
         android:name="com.mytrip.CountryPageFragment"
         android:label="Country Page"
-        tools:layout="@layout/country_page">
+        tools:layout="@layout/posts_with_map">
         <argument android:name="country" app:argType="com.mytrip.classes.Country"/>
         <action
             android:id="@+id/action_CountryPageFragment_to_createPostFragment"
@@ -29,8 +29,13 @@
         android:id="@+id/PostsFragment"
         android:name="com.mytrip.posts.PostsFragment"
         android:label="Posts Fragment"
-        tools:layout="@layout/fragment_country_posts">
+        tools:layout="@layout/posts_list_fragment">
     </fragment>
+    <fragment
+        android:id="@+id/MyProfileFragment"
+        android:name="com.mytrip.MyProfileFragment"
+        android:label="My Profile"
+        tools:layout="@layout/posts_with_map" />
     <fragment
         android:id="@+id/createPostFragment"
         android:name="com.mytrip.CreatePostFragment"
