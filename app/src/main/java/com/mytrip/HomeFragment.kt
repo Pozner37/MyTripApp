@@ -8,10 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.GridLayout
 import android.widget.ImageButton
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.mytrip.R
 import com.mytrip.utils.CountriesApiManager
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.launch
@@ -56,6 +56,8 @@ class HomeFragment : Fragment() {
     private suspend fun generateCountryButtons(countriesApi: CountriesApiManager, buttonContainer: GridLayout) {
         val countries =  countriesApi.getAllCountries()
 
+        stopSpinnerLoading(buttonContainer)
+
         for (country in countries) {
             val buttonLayout = LayoutInflater.from(requireContext()).inflate(R.layout.grid_item_button_with_title, null)
             buttonLayout.layoutParams = GridLayout.LayoutParams().apply {
@@ -80,5 +82,10 @@ class HomeFragment : Fragment() {
 
             buttonContainer.addView(buttonLayout)
         }
+    }
+
+    private fun stopSpinnerLoading(buttonContainer: GridLayout) {
+        val spinner = buttonContainer.findViewById<ProgressBar>(R.id.progressBar);
+        buttonContainer.removeView(spinner)
     }
 }
