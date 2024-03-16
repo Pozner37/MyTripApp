@@ -7,9 +7,9 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.watchit.MainActivity
-import com.example.watchit.R
-import com.example.watchit.modules.register.RegisterActivity
+import androidx.fragment.app.Fragment
+import com.mytrip.MainActivity
+import com.mytrip.R
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.Firebase
