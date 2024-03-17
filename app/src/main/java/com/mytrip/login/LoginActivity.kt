@@ -7,13 +7,13 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.watchit.MainActivity
-import com.example.watchit.R
-import com.example.watchit.modules.register.RegisterActivity
+import com.mytrip.R
+import com.mytrip.register.RegisterActivity
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
+import com.mytrip.MainActivity
 
 class LoginActivity : AppCompatActivity() {
 

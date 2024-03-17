@@ -8,13 +8,13 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.ComponentActivity
-import com.example.watchit.MainActivity
-import com.example.watchit.R
+import com.mytrip.R
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
+import com.mytrip.MainActivity
 
 class ForgotPasswordActivity : ComponentActivity() {
 
