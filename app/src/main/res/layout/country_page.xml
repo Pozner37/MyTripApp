@@ -21,7 +21,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/custom_posts_fragment"
-        android:name="com.mytrip.posts.PostsFragment"
+        android:name="com.mytrip.modules.posts.PostsFragment"
         android:layout_width="match_parent"
         android:layout_height="360dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />

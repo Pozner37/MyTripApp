@@ -1,4 +1,4 @@
-package com.mytrip.posts
+package com.mytrip.modules.posts
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

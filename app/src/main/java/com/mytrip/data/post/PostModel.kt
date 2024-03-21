@@ -1,12 +1,12 @@
-package com.mytrip.db.post
+package com.mytrip.data.post
 
 import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.mytrip.db.LocalDB
 import java.util.concurrent.Executors
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
+import com.mytrip.data.AppLocalDatabase
 
 class PostModel private constructor() {
 
@@ -15,7 +15,7 @@ class PostModel private constructor() {
         LOADED
     }
 
-    private val database = LocalDB.db
+    private val database = AppLocalDatabase.db
     private var reviewsExecutor = Executors.newSingleThreadExecutor()
     private val firebaseModel = PostFirebaseModel()
     private val reviews: LiveData<MutableList<Post>>? = null

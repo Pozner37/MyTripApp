@@ -1,4 +1,4 @@
-package com.mytrip.login
+package com.mytrip.modules.login
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,7 +8,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.mytrip.R
-import com.mytrip.register.RegisterActivity
+import com.mytrip.modules.register.RegisterActivity
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.Firebase

@@ -1,4 +1,4 @@
-package com.mytrip.posts
+package com.mytrip.modules.posts
 
 import android.os.Bundle
 import android.view.LayoutInflater

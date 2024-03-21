@@ -1,4 +1,4 @@
-package com.mytrip.db.post
+package com.mytrip.data.post
 
 import android.content.Context
 import androidx.room.Entity

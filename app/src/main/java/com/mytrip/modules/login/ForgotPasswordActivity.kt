@@ -1,4 +1,4 @@
-package com.mytrip.login
+package com.mytrip.modules.login
 
 import android.annotation.SuppressLint
 import android.content.Intent
