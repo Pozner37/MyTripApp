@@ -12,9 +12,6 @@ import com.mytrip.R
 import com.mytrip.classes.Post
 import com.bumptech.glide.Glide
 import com.google.android.material.chip.Chip
-import com.mytrip.classes.CountryFlag
-import com.mytrip.classes.Flag
-import com.mytrip.utils.CountriesApiManager
 
 
 class PostCardsAdapter(private val posts: List<Post>) :
@@ -59,10 +56,6 @@ class PostCardsAdapter(private val posts: List<Post>) :
         holder.country.text = post.countryName
         holder.description.text = post.description
         handleClicksCard(holder, position);
-    }
-
-    private fun getCountryFlag(countryName : String): List<Flag> {
-        return CountriesApiManager().getCountryFlag(countryName);
     }
 
     fun setOnPostItemClickListener(listener: OnPostItemClickListener) {
