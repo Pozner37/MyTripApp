@@ -18,9 +18,9 @@
     <fragment
         android:id="@+id/CountryPageFragment"
         android:name="com.mytrip.CountryPageFragment"
-        android:label="Country Page"
+        android:label="Country Name"
         tools:layout="@layout/posts_with_map">
-        <argument android:name="country" app:argType="com.mytrip.classes.Country"/>
+        <argument android:name="countryName" app:argType="string"/>
         <action
             android:id="@+id/action_CountryPageFragment_to_createPostFragment"
             app:destination="@id/createPostFragment" />
@@ -42,6 +42,9 @@
         android:label="CreatePostFragment" >
         <argument
             android:name="country"
-            app:argType="com.mytrip.classes.Country" />
+            app:argType="string" />
     </fragment>
+    <action
+        android:id="@+id/postCountry_to_countryPageFragment"
+        app:destination="@id/CountryPageFragment"/>
 </navigation>

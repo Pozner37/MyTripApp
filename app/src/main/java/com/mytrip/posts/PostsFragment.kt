@@ -8,9 +8,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mytrip.BasePostMapFragment
+import com.mytrip.HomeFragmentDirections
 import com.mytrip.R
 import com.mytrip.classes.Post
 
@@ -75,10 +77,20 @@ class PostsFragment : Fragment(), PostCardsAdapter.OnPostItemClickListener {
         onPostItemClickListener?.onPostItemClicked(postId)
     }
 
+    override fun onPostDeleteClicked(postId: String) {
+        viewModel.posts.value?.let { posts ->
+            viewModel.setPosts(posts.filterNot { it.id == postId }.toMutableList())
+        }
+    }
+
+    override fun onPostCountryClicked(countryName: String) {
+        val action = PostsFragmentDirections.postCountryToCountryPageFragment(countryName);
+        findNavController().navigate(action)
+    }
     fun onMarkerClicked(postId: String) {
-        viewModel.posts.observe(viewLifecycleOwner, Observer {
-                posts -> val index  = posts.indexOfFirst { post -> post.id === postId }
+        val index = viewModel.posts.value?.indexOfFirst { post -> post.id == postId }
+        if (index != null) {
             recyclerView.scrollToPosition(index)
-        })
+        }
     }
 }

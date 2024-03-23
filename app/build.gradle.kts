@@ -2,6 +2,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("androidx.navigation.safeargs")
+    id("kotlin-kapt")
 }
 
 android {
@@ -66,4 +67,8 @@ dependencies {
     implementation ("com.squareup.picasso:picasso:2.8")
     implementation("androidx.fragment:fragment:1.3.5")
     implementation("com.google.android.gms:play-services-tflite-acceleration-service:16.0.0-beta01")
+    implementation("com.github.bumptech.glide:glide:4.12.0")
+    implementation("com.squareup.retrofit2:adapter-rxjava2:2.9.0")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.7.2")
+    kapt("com.github.bumptech.glide:compiler:4.9.0")
 }

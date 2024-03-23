@@ -42,8 +42,10 @@ abstract class BasePostMapFragment : Fragment(), OnMapReadyCallback, PostsFragme
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
         map.setOnMarkerClickListener(this)
-        viewModel.posts?.observe(viewLifecycleOwner, Observer {
-                posts -> posts.forEach{post ->
+        viewModel.posts.observe(viewLifecycleOwner, Observer {
+            posts ->
+            map.clear()
+            posts.forEach{post ->
             val marker = map.addMarker(MarkerOptions().position(post.position))
             if (marker != null) {
                 marker.tag = post.id
@@ -65,13 +67,10 @@ abstract class BasePostMapFragment : Fragment(), OnMapReadyCallback, PostsFragme
     }
 
     override fun onPostItemClicked(postId: String) {
-        viewModel.posts?.observe(viewLifecycleOwner, Observer {
-                posts ->
-            val currPost = posts.find{curr -> curr.id === postId };
-            if (currPost != null) {
-                map.moveCamera(CameraUpdateFactory.newLatLngZoom(currPost.position, 9f))
-            }
-        })
+        val post = viewModel.posts.value?.find { curr -> curr.id === postId }
+        if (post != null) {
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(post.position, 9f))
+        }
     }
 
     override fun onMarkerClick(clickedMarker: Marker): Boolean {
