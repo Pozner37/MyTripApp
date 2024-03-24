@@ -12,10 +12,12 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.mytrip.viewModels.LocationViewModel
@@ -30,7 +32,7 @@ class CreatePostFragment : Fragment() {
     private var attachedPicture: Uri = Uri.EMPTY
     private var imageView: ImageView? = null
 
-    private val args: CountryPageFragmentArgs by navArgs()
+    private val args: CreatePostFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,18 +41,16 @@ class CreatePostFragment : Fragment() {
         view = inflater.inflate(
             R.layout.create_post_fragment, container, false
         )
-        val locationViewModel = ViewModelProvider(requireActivity()).get(LocationViewModel::class.java)
-        val location = locationViewModel.location
-
-        deviceLocation = location
 
         val geocoder = context?.let { Geocoder(it, Locale.getDefault()) }
-        val addresses = geocoder?.getFromLocation(location.latitude, location.longitude, 1)
+        val addresses = geocoder?.getFromLocation(args.position.latitude, args.position.longitude, 1)
         val countryCode = addresses?.get(0)?.countryCode
 
         initViews(view)
         handleSubmitButton()
         handleAttachProductPicture()
+
+        requireActivity().findViewById<FloatingActionButton>(R.id.fab).isVisible = false;
 
         return view
     }

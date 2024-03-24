@@ -5,7 +5,6 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -14,8 +13,11 @@ import android.view.MenuItem
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.model.LatLng
 import com.mytrip.databinding.ActivityMainBinding
 import com.mytrip.viewModels.LocationViewModel
 
@@ -25,7 +27,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController : NavController
     private lateinit var fusedLocationClient: FusedLocationProviderClient
-    private lateinit var currentLocation: Location
+    private lateinit var locationViewModel: LocationViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,10 +63,16 @@ class MainActivity : AppCompatActivity() {
         fusedLocationClient.lastLocation
             .addOnSuccessListener { location : Location? ->
                 if (location != null) {
-                    val locationViewModel = ViewModelProvider(this).get(LocationViewModel::class.java)
-                    locationViewModel.location = location
+                    locationViewModel = ViewModelProvider(this)[LocationViewModel::class.java]
+                    locationViewModel.location.value = location
                 }
             }
+        binding.fab.setOnClickListener {
+            val action = CountryPageFragmentDirections.toCreatePostFragment(LatLng(locationViewModel.location.value?.latitude!!,
+                locationViewModel.location.value?.longitude!!
+            ))
+            navController.navigate(action)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

@@ -10,12 +10,15 @@ import com.mytrip.posts.PostViewModel
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.MarkerOptions
 import com.mytrip.posts.PostsFragment
 import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.mytrip.databinding.PostsWithMapBinding
+import com.mytrip.viewModels.LocationViewModel
 
 
 abstract class BasePostMapFragment : Fragment(), OnMapReadyCallback, PostsFragment.OnPostItemClickListener, GoogleMap.OnMarkerClickListener {
@@ -25,6 +28,8 @@ abstract class BasePostMapFragment : Fragment(), OnMapReadyCallback, PostsFragme
     private val binding get() = _binding!!
     private lateinit var map: GoogleMap
     private val viewModel by activityViewModels<PostViewModel>()
+    private val locationViewModel by activityViewModels<LocationViewModel>()
+    private var currLocationMarker: Marker? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,9 +47,18 @@ abstract class BasePostMapFragment : Fragment(), OnMapReadyCallback, PostsFragme
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
         map.setOnMarkerClickListener(this)
+        map.setOnMapLongClickListener {
+            val action = CountryPageFragmentDirections.toCreatePostFragment(it)
+            findNavController().navigate(action)
+        }
+        locationViewModel.location.observe(viewLifecycleOwner, Observer {
+            currLocationMarker?.remove()
+            currLocationMarker = map.addMarker(MarkerOptions().position(LatLng(it.latitude, it.longitude)))!!
+        })
         viewModel.posts.observe(viewLifecycleOwner, Observer {
             posts ->
             map.clear()
+            currLocationMarker = map.addMarker(MarkerOptions().position(LatLng(locationViewModel.location.value?.latitude!!, locationViewModel.location.value!!.longitude)))!!
             posts.forEach{post ->
             val marker = map.addMarker(MarkerOptions().position(post.position))
             if (marker != null) {

@@ -27,16 +27,11 @@ class CountryPageFragment : BasePostMapFragment() {
         val view: View? = super.onCreateView(inflater, container, savedInstanceState)
         countryName = args.countryName;
         viewModel.setPosts(mutableListOf(
-            Post("1",countryName,"Post 1", LatLng(32.0,35.0)),
-            Post("2",countryName,"Post 2", LatLng(33.0,34.0)),
-            Post("3",countryName,"Post 3", LatLng(31.0,35.0)),
-            Post("4",countryName,"Post 4", LatLng(31.0,35.5))
+            Post("1","1",countryName,"Post 1", LatLng(32.0,35.0)),
+            Post("2","2",countryName,"Post 2", LatLng(33.0,34.0)),
+            Post("3","3",countryName,"Post 3", LatLng(31.0,35.0)),
+            Post("4","4",countryName,"Post 4", LatLng(31.0,35.5))
         ))
-
-        view?.findViewById<FloatingActionButton>(R.id.fab)?.setOnClickListener { view ->
-            val action = CountryPageFragmentDirections.actionCountryPageFragmentToCreatePostFragment(args.countryName)
-            findNavController().navigate(action)
-        }
         return view;
     }
 

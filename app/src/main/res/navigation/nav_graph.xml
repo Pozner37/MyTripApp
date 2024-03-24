@@ -21,9 +21,6 @@
         android:label="Country Name"
         tools:layout="@layout/posts_with_map">
         <argument android:name="countryName" app:argType="string"/>
-        <action
-            android:id="@+id/action_CountryPageFragment_to_createPostFragment"
-            app:destination="@id/createPostFragment" />
     </fragment>
     <fragment
         android:id="@+id/PostsFragment"
@@ -41,10 +38,13 @@
         android:name="com.mytrip.CreatePostFragment"
         android:label="CreatePostFragment" >
         <argument
-            android:name="country"
-            app:argType="string" />
+            android:name="position"
+            app:argType="com.google.android.gms.maps.model.LatLng" />
     </fragment>
     <action
         android:id="@+id/postCountry_to_countryPageFragment"
         app:destination="@id/CountryPageFragment"/>
+    <action
+        android:id="@+id/to_createPostFragment"
+        app:destination="@id/createPostFragment" />
 </navigation>

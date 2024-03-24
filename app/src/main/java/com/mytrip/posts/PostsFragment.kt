@@ -7,18 +7,18 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mytrip.BasePostMapFragment
-import com.mytrip.HomeFragmentDirections
 import com.mytrip.R
 import com.mytrip.classes.Post
+import com.mytrip.viewModels.UserViewModel
 
 class PostsFragment : Fragment(), PostCardsAdapter.OnPostItemClickListener {
     private lateinit var recyclerView: RecyclerView
     private val viewModel by activityViewModels<PostViewModel>()
+    private val userViewModel by activityViewModels<UserViewModel>()
     private var onPostItemClickListener: OnPostItemClickListener? = null
 
     interface OnPostItemClickListener {
@@ -30,7 +30,7 @@ class PostsFragment : Fragment(), PostCardsAdapter.OnPostItemClickListener {
         posts: LiveData<MutableList<Post>>?
     ) {
         posts?.observe(viewLifecycleOwner) { currPosts: List<Post> ->
-            val postCardsAdapter = PostCardsAdapter(currPosts)
+            val postCardsAdapter = PostCardsAdapter(currPosts,userViewModel)
             postCardsAdapter.setOnPostItemClickListener(this)
             recyclerView.adapter = postCardsAdapter
             //closeKeyboard(requireContext(), requireView())
@@ -84,8 +84,11 @@ class PostsFragment : Fragment(), PostCardsAdapter.OnPostItemClickListener {
     }
 
     override fun onPostCountryClicked(countryName: String) {
-        val action = PostsFragmentDirections.postCountryToCountryPageFragment(countryName);
-        findNavController().navigate(action)
+        val navController = findNavController()
+        if (navController.currentDestination?.id != R.id.CountryPageFragment) {
+            val action = PostsFragmentDirections.postCountryToCountryPageFragment(countryName);
+            findNavController().navigate(action)
+        }
     }
     fun onMarkerClicked(postId: String) {
         val index = viewModel.posts.value?.indexOfFirst { post -> post.id == postId }
