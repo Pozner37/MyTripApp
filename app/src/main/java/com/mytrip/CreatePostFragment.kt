@@ -15,6 +15,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -44,8 +45,12 @@ class CreatePostFragment : Fragment() {
 
         val geocoder = context?.let { Geocoder(it, Locale.getDefault()) }
         val addresses = geocoder?.getFromLocation(args.position.latitude, args.position.longitude, 1)
-        val countryCode = addresses?.get(0)?.countryCode
-
+        var countryCode : String = "";
+        if (addresses?.size!! > 0) {
+            countryCode = addresses[0].countryCode
+        } else {
+            findNavController().popBackStack()
+        }
         initViews(view)
         handleSubmitButton()
         handleAttachProductPicture()
@@ -115,5 +120,10 @@ class CreatePostFragment : Fragment() {
         attachPictureButton.setOnClickListener {
             pickImageContract.launch("image/*")
         }
+    }
+
+    override fun onDestroyView(){
+        super.onDestroyView()
+        requireActivity().findViewById<FloatingActionButton>(R.id.fab).isVisible = true;
     }
 }
