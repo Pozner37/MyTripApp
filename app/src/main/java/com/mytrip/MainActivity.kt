@@ -1,6 +1,7 @@
 package com.mytrip
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
@@ -28,6 +29,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navController : NavController
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var locationViewModel: LocationViewModel
+    private val LOCATION_PERMISSION_REQUEST_CODE = 100
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,22 +53,19 @@ class MainActivity : AppCompatActivity() {
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                ),
+                LOCATION_PERMISSION_REQUEST_CODE
+            )
             return
+        } else {
+            setLocation(fusedLocationClient)
         }
-        fusedLocationClient.lastLocation
-            .addOnSuccessListener { location : Location? ->
-                if (location != null) {
-                    locationViewModel = ViewModelProvider(this)[LocationViewModel::class.java]
-                    locationViewModel.location.value = location
-                }
-            }
+
         binding.fab.setOnClickListener {
             val action = CountryPageFragmentDirections.toCreatePostFragment(LatLng(locationViewModel.location.value?.latitude!!,
                 locationViewModel.location.value?.longitude!!
@@ -102,5 +101,34 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         return navController.navigateUp(appBarConfiguration)
                 || super.onSupportNavigateUp()
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
+            if (grantResults.isNotEmpty() &&
+                grantResults[0] == PackageManager.PERMISSION_GRANTED &&
+                grantResults[1] == PackageManager.PERMISSION_GRANTED
+            ) {
+                // Location permissions granted, do something
+                // For example, start getting location updates
+                setLocation(fusedLocationClient)
+            }
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun setLocation(fusedLocationClient: FusedLocationProviderClient) {
+        fusedLocationClient.lastLocation
+            .addOnSuccessListener { location : Location? ->
+                if (location != null) {
+                    locationViewModel = ViewModelProvider(this)[LocationViewModel::class.java]
+                    locationViewModel.location.value = location
+                }
+            }
     }
 }
