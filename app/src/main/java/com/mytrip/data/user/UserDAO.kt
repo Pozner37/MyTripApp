@@ -9,7 +9,7 @@ import androidx.room.Query
 
 @Dao
 interface UserDAO {
-    @Query("SELECT * FROM user where id in (select userId from review)")
+    @Query("SELECT * FROM user")
     fun getAll(): LiveData<MutableList<User>>
 
     @Query("SELECT * FROM user where id = :userId")
