@@ -2,7 +2,7 @@ package com.mytrip.modules.posts
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.mytrip.classes.Post
+import com.mytrip.data.post.Post
 
 
 class PostViewModel : ViewModel() {

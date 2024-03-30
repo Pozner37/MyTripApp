@@ -15,7 +15,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.mytrip.R
-import com.mytrip.classes.Post
+import com.mytrip.data.post.Post
 import com.mytrip.utils.CountriesApiManager
 import com.mytrip.viewModels.UserViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -63,7 +63,7 @@ class PostCardsAdapter(private val posts: List<Post>, private val userViewModel:
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
         val post = posts[position]
         CoroutineScope(Dispatchers.Main).launch {
-            val x = getCountryFlag(post.countryName);
+            val x = getCountryFlag(post.country);
             Glide.with(holder.itemView)
                 .asBitmap()
                 .load(x)
@@ -113,7 +113,7 @@ class PostCardsAdapter(private val posts: List<Post>, private val userViewModel:
             onPostItemClickListener?.onPostEditClicked(post)
         }
         holder.countryImage.setOnClickListener {
-            onPostItemClickListener?.onPostCountryClicked(post.countryName)
+            onPostItemClickListener?.onPostCountryClicked(post.country)
         }
     }
 

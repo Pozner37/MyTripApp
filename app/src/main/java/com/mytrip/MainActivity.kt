@@ -18,8 +18,8 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.LatLng
-import com.mytrip.classes.Post
 import com.mytrip.databinding.ActivityMainBinding
+import com.mytrip.data.post.Post
 import com.mytrip.viewModels.LocationViewModel
 
 class MainActivity : AppCompatActivity() {

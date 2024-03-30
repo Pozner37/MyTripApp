@@ -15,8 +15,8 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
-import com.mytrip.classes.Post
 import com.mytrip.databinding.PostsWithMapBinding
+import com.mytrip.data.post.Post
 import com.mytrip.modules.posts.PostViewModel
 import com.mytrip.modules.posts.PostsFragment
 import com.mytrip.viewModels.LocationViewModel

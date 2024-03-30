@@ -8,7 +8,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.mytrip.classes.Post
+import com.mytrip.data.post.Post
 import com.mytrip.modules.posts.PostViewModel
 import com.mytrip.viewModels.UserViewModel
 

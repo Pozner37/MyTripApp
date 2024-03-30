@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mytrip.BasePostMapFragment
 import com.mytrip.CountryPageFragmentDirections
 import com.mytrip.R
-import com.mytrip.classes.Post
+import com.mytrip.data.post.Post
 import com.mytrip.viewModels.UserViewModel
 
 class PostsFragment : Fragment(), PostCardsAdapter.OnPostItemClickListener {

@@ -67,7 +67,7 @@
         android:label="CreatePostFragment" >
         <argument
             android:name="post"
-            app:argType="com.mytrip.classes.Post" />
+            app:argType="com.mytrip.data.post.Post" />
     </fragment>
     <action
         android:id="@+id/postCountry_to_countryPageFragment"
