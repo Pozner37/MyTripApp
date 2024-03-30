@@ -1,4 +1,4 @@
-package com.mytrip.posts
+package com.mytrip.modules.posts
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

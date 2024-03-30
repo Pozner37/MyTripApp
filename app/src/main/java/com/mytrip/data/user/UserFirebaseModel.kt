@@ -1,4 +1,4 @@
-package com.mytrip.db.user
+package com.mytrip.data.user
 
 import android.net.Uri
 import android.util.Log

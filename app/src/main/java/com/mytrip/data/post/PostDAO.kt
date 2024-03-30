@@ -1,4 +1,4 @@
-package com.mytrip.db.post
+package com.mytrip.data.post
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao

@@ -1,15 +1,15 @@
-package com.mytrip.db.user
+package com.mytrip.data.user
 
 import android.net.Uri
 import androidx.lifecycle.LiveData
+import com.mytrip.data.AppLocalDatabase
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
-import com.mytrip.db.LocalDB
 import java.util.concurrent.Executors
 
 class UserModel private constructor() {
 
-    private val database = LocalDB.db
+    private val database = AppLocalDatabase.db
     private var usersExecutor = Executors.newSingleThreadExecutor()
     private val firebaseModel = UserFirebaseModel()
     private val users: LiveData<MutableList<User>>? = null

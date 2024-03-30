@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/HomeFragment"
         android:name="com.mytrip.HomeFragment"
-        android:label="@string/home_fragment_label"
+        android:label="@string/home"
         tools:layout="@layout/home_fragment">
 
         <action
@@ -27,7 +27,7 @@
     </fragment>
     <fragment
         android:id="@+id/PostsFragment"
-        android:name="com.mytrip.posts.PostsFragment"
+        android:name="com.mytrip.modules.posts.PostsFragment"
         android:label="Posts Fragment"
         tools:layout="@layout/posts_list_fragment">
         <action
@@ -39,6 +39,28 @@
         android:name="com.mytrip.MyProfileFragment"
         android:label="My Profile"
         tools:layout="@layout/posts_with_map" />
+    <fragment
+        android:id="@+id/profile"
+        android:name="com.mytrip.modules.profile.Profile"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile">
+        <action
+            android:id="@+id/action_profile_to_editMyProfile"
+            app:destination="@id/editMyProfile"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/editMyProfile"
+        android:name="com.mytrip.modules.profile.EditMyProfile"
+        android:label="fragment_edit_my_profile"
+        tools:layout="@layout/fragment_edit_my_profile">
+        <action
+            android:id="@+id/action_editMyProfile_to_profile"
+            app:destination="@id/profile"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
+    </fragment>
     <fragment
         android:id="@+id/createPostFragment"
         android:name="com.mytrip.CreatePostFragment"

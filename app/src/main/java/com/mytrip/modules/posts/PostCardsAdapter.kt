@@ -1,4 +1,4 @@
-package com.mytrip.posts
+package com.mytrip.modules.posts
 
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable

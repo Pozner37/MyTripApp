@@ -6,12 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
-import com.mytrip.posts.PostViewModel
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.mytrip.classes.Post
+import com.mytrip.modules.posts.PostViewModel
 
 
 class CountryPageFragment : BasePostMapFragment() {
