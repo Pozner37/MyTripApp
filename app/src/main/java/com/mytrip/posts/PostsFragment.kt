@@ -1,6 +1,7 @@
 package com.mytrip.posts
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mytrip.BasePostMapFragment
+import com.mytrip.CountryPageFragmentDirections
 import com.mytrip.R
 import com.mytrip.classes.Post
 import com.mytrip.viewModels.UserViewModel
@@ -81,6 +83,16 @@ class PostsFragment : Fragment(), PostCardsAdapter.OnPostItemClickListener {
         viewModel.posts.value?.let { posts ->
             viewModel.setPosts(posts.filterNot { it.id == postId }.toMutableList())
         }
+    }
+
+    override fun onPostEditClicked(post: Post) {
+        try {
+            val action = CountryPageFragmentDirections.actionCountryPageFragmentToCreatePostFragment(post);
+            findNavController().navigate(action)
+        } catch (e: Exception) {
+            e.message?.let { Log.d("PostCreate", it) }
+        }
+
     }
 
     override fun onPostCountryClicked(countryName: String) {

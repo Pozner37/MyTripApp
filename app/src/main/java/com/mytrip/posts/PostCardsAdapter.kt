@@ -10,17 +10,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.core.view.isVisible
-import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.LifecycleCoroutineScope
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
-import com.mytrip.R
-import com.mytrip.classes.Post
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
-import com.google.android.material.chip.Chip
-import com.mytrip.classes.Flag
+import com.mytrip.R
+import com.mytrip.classes.Post
 import com.mytrip.utils.CountriesApiManager
 import com.mytrip.viewModels.UserViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -41,6 +36,9 @@ class PostCardsAdapter(private val posts: List<Post>, private val userViewModel:
         fun onPostDeleteClicked(
             postId : String
         )
+        fun onPostEditClicked(
+            post : Post
+        )
         fun onPostCountryClicked(
             countryName : String
         )
@@ -53,6 +51,7 @@ class PostCardsAdapter(private val posts: List<Post>, private val userViewModel:
         val description: TextView = itemView.findViewById(R.id.card_description)
         val card: CardView = itemView.findViewById(R.id.card)
         val deleteBtn : ImageButton = itemView.findViewById(R.id.delete_button)
+        val editBtn : ImageButton = itemView.findViewById(R.id.edit_button)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
@@ -86,6 +85,7 @@ class PostCardsAdapter(private val posts: List<Post>, private val userViewModel:
         holder.description.text = post.description
 
         holder.deleteBtn.isVisible = post.userId == userViewModel.user.id
+        holder.editBtn.isVisible = post.userId == userViewModel.user.id
 
         handleClicksCard(holder, position);
     }
@@ -108,6 +108,9 @@ class PostCardsAdapter(private val posts: List<Post>, private val userViewModel:
         }
         holder.deleteBtn.setOnClickListener {
             onPostItemClickListener?.onPostDeleteClicked(post.id)
+        }
+        holder.editBtn.setOnClickListener {
+            onPostItemClickListener?.onPostEditClicked(post)
         }
         holder.countryImage.setOnClickListener {
             onPostItemClickListener?.onPostCountryClicked(post.countryName)

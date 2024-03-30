@@ -5,20 +5,20 @@ import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.navigateUp
+import androidx.navigation.ui.setupActionBarWithNavController
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.LatLng
+import com.mytrip.classes.Post
 import com.mytrip.databinding.ActivityMainBinding
 import com.mytrip.viewModels.LocationViewModel
 
@@ -67,9 +67,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.fab.setOnClickListener {
-            val action = CountryPageFragmentDirections.toCreatePostFragment(LatLng(locationViewModel.location.value?.latitude!!,
+            val tempPost = Post("", "", "", "",LatLng(locationViewModel.location.value?.latitude!!,
                 locationViewModel.location.value?.longitude!!
             ))
+            val action = CountryPageFragmentDirections.toCreatePostFragment(tempPost)
             navController.navigate(action)
         }
     }
@@ -81,9 +82,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
             R.id.menu_home -> {
                 navController.navigate(R.id.HomeFragment)
@@ -114,8 +112,6 @@ class MainActivity : AppCompatActivity() {
                 grantResults[0] == PackageManager.PERMISSION_GRANTED &&
                 grantResults[1] == PackageManager.PERMISSION_GRANTED
             ) {
-                // Location permissions granted, do something
-                // For example, start getting location updates
                 setLocation(fusedLocationClient)
             }
         }

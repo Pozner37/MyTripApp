@@ -44,12 +44,12 @@ class CreatePostFragment : Fragment() {
         )
 
         val geocoder = context?.let { Geocoder(it, Locale.getDefault()) }
-        val addresses = geocoder?.getFromLocation(args.position.latitude, args.position.longitude, 1)
+        val addresses = geocoder?.getFromLocation(args.post.position.latitude, args.post.position.longitude, 1)
         var countryCode : String = "";
         if (addresses?.size!! > 0) {
             countryCode = addresses[0].countryCode
         } else {
-            findNavController().popBackStack()
+            //findNavController().popBackStack()
         }
         initViews(view)
         handleSubmitButton()
@@ -65,6 +65,10 @@ class CreatePostFragment : Fragment() {
         attachPictureButton = view.findViewById(R.id.upload_picture_button)
         imageView = view.findViewById(R.id.selected_image)
         submitButton = view.findViewById(R.id.post_submit)
+
+        if (args.post.id != null) {
+            description.setText(args.post.description)
+        }
     }
 
     private fun handleSubmitButton() {

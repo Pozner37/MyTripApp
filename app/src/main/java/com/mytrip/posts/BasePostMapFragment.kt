@@ -17,6 +17,7 @@ import com.mytrip.posts.PostsFragment
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
+import com.mytrip.classes.Post
 import com.mytrip.databinding.PostsWithMapBinding
 import com.mytrip.viewModels.LocationViewModel
 
@@ -48,7 +49,8 @@ abstract class BasePostMapFragment : Fragment(), OnMapReadyCallback, PostsFragme
         map = googleMap
         map.setOnMarkerClickListener(this)
         map.setOnMapLongClickListener {
-            val action = CountryPageFragmentDirections.toCreatePostFragment(it)
+            val tempPost = Post("", "", "", "", it)
+            val action = CountryPageFragmentDirections.toCreatePostFragment(tempPost)
             findNavController().navigate(action)
         }
         locationViewModel.location.observe(viewLifecycleOwner, Observer {
