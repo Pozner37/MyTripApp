@@ -16,10 +16,10 @@ class PostModel private constructor() {
     }
 
     private val database = AppLocalDatabase.db
-    private var reviewsExecutor = Executors.newSingleThreadExecutor()
+    private var postsExecutor = Executors.newSingleThreadExecutor()
     private val firebaseModel = PostFirebaseModel()
-    private val reviews: LiveData<MutableList<Post>>? = null
-    val reviewsListLoadingState: MutableLiveData<LoadingState> =
+    private val posts: LiveData<MutableList<Post>>? = null
+    val postsListLoadingState: MutableLiveData<LoadingState> =
         MutableLiveData(LoadingState.LOADED)
 
 
@@ -29,16 +29,16 @@ class PostModel private constructor() {
 
     fun getAllPosts(): LiveData<MutableList<Post>> {
         refreshAllPosts()
-        return reviews ?: database.postDao().getAll()
+        return posts ?: database.postDao().getAll()
     }
 
     fun getMyPosts(): LiveData<MutableList<Post>> {
         refreshAllPosts()
-        return reviews ?: database.postDao().getPostsByUserId(Firebase.auth.currentUser?.uid!!)
+        return posts ?: database.postDao().getPostsByUserId(Firebase.auth.currentUser?.uid!!)
     }
 
     fun refreshAllPosts() {
-        reviewsListLoadingState.value = LoadingState.LOADING
+        postsListLoadingState.value = LoadingState.LOADING
 
         val lastUpdated: Long = Post.lastUpdated
 
@@ -46,12 +46,12 @@ class PostModel private constructor() {
             var time = lastUpdated
             for (post in list) {
                 if (post.isDeleted) {
-                    reviewsExecutor.execute {
+                    postsExecutor.execute {
                         database.postDao().delete(post)
                     }
                 } else {
                     firebaseModel.getImage(post.id) { uri ->
-                        reviewsExecutor.execute {
+                        postsExecutor.execute {
                             post.photo = uri.toString()
                             database.postDao().insert(post)
                         }
@@ -64,35 +64,35 @@ class PostModel private constructor() {
                     Post.lastUpdated = time
                 }
             }
-            reviewsListLoadingState.postValue(LoadingState.LOADED)
+            postsListLoadingState.postValue(LoadingState.LOADED)
         }
     }
 
-    fun addPost(review: Post, selectedImageUri: Uri, callback: () -> Unit) {
-        firebaseModel.addPost(review) {
-            firebaseModel.addPostImage(review.id, selectedImageUri) {
+    fun addPost(post: Post, selectedImageUri: Uri, callback: () -> Unit) {
+        firebaseModel.addPost(post) {
+            firebaseModel.addPostImage(post.id, selectedImageUri) {
                 refreshAllPosts()
                 callback()
             }
         }
     }
 
-    fun deletePost(review: Post?, callback: () -> Unit) {
-        firebaseModel.deletePost(review) {
+    fun deletePost(post: Post?, callback: () -> Unit) {
+        firebaseModel.deletePost(post) {
             refreshAllPosts()
             callback()
         }
     }
 
-    fun updatePost(review: Post?, callback: () -> Unit) {
-        firebaseModel.updatePost(review) {
+    fun updatePost(post: Post?, callback: () -> Unit) {
+        firebaseModel.updatePost(post) {
             refreshAllPosts()
             callback()
         }
     }
 
-    fun updatePostImage(reviewId: String, selectedImageUri: Uri, callback: () -> Unit) {
-        firebaseModel.addPostImage(reviewId, selectedImageUri) {
+    fun updatePostImage(postId: String, selectedImageUri: Uri, callback: () -> Unit) {
+        firebaseModel.addPostImage(postId, selectedImageUri) {
             refreshAllPosts()
             callback()
         }

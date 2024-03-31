@@ -34,11 +34,11 @@
         android:layout_height="30dp" />
 
     <Button
-        android:id="@+id/MyReviewsButton"
+        android:id="@+id/MyPostsButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/userprofilebutton"
-        android:text="My Reviews"
+        android:text="My Posts"
         android:textAlignment="viewStart"
         android:textColor="#FFFF7B00"
         android:textSize="20sp"

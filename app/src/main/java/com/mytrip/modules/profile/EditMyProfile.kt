@@ -45,7 +45,7 @@ class EditMyProfile : Fragment() {
                     binding.ProfileImageView.setImageURI(imageUri)
                 }
             } catch (e: Exception) {
-                Log.d("EditMyReview", "Error: $e")
+                Log.d("EditMyPost", "Error: $e")
                 Toast.makeText(
                     requireContext(), "Error processing result", Toast.LENGTH_SHORT
                 ).show()
@@ -97,8 +97,8 @@ class EditMyProfile : Fragment() {
         }
 
         viewModel.user.observe(viewLifecycleOwner) { user ->
-            binding.editTextFirstName.setText(user.firstName)
-            binding.editTextLastName.setText(user.lastName)
+            binding.editTextFirstName.setText("")
+            binding.editTextLastName.setText("")
         }
 
         viewModel.selectedImageURI.observe(viewLifecycleOwner) { uri ->
