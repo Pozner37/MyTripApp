@@ -66,7 +66,7 @@ class CreatePostFragment : Fragment() {
         imageView = view.findViewById(R.id.selected_image)
         submitButton = view.findViewById(R.id.post_submit)
 
-        if (args.post.id != null) {
+        if (args.post.id.length > 0) {
             description.setText(args.post.description)
         }
     }

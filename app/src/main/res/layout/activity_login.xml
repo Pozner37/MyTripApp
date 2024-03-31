@@ -11,24 +11,13 @@
         android:id="@+id/TitleTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/black"
-        android:text="MyTripApp!"
+        android:background="@color/white"
+        android:text="MyTrip"
         android:textAlignment="center"
-        android:textColor="#FFFF7B00"
+        android:textColor="@color/black"
         android:textSize="40sp"
         />
 
-    <TextView
-        android:id="@+id/WelcomeTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="20dp"
-        android:paddingBottom="15dp"
-        android:text="Welcome Back!"
-        android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        android:textAppearance="@android:style/TextAppearance.Material.Display1" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/layoutEmailAddress"
@@ -76,7 +65,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/mybutton"
         android:text="Log In"
-        android:textColor="#FFFF7B00"
+        android:textColor="@color/white"
         android:textSize="20sp"/>
 
     <TextView
@@ -97,7 +86,7 @@
         android:text="Don't have an account yet?"
         android:textAlignment="center"
         android:textAppearance="@android:style/TextAppearance.Material.Large"
-        android:textColor="#FFFF7B00"
+        android:textColor="@color/black"
         android:textStyle="bold" />
 
 </LinearLayout>

@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".HomeFragment">
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,10 +16,10 @@
         android:id="@+id/TitleTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/black"
-        android:text="MyTripApp!"
+        android:background="@color/white"
+        android:text="MyTrip"
         android:textAlignment="center"
-        android:textColor="#FFFF7B00"
+        android:textColor="@color/black"
         android:textSize="40sp"
         />
 
@@ -24,7 +29,7 @@
         android:layout_height="wrap_content"
         android:paddingTop="20dp"
         android:paddingBottom="15dp"
-        android:text="Register"
+        android:text="Sign Up"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textStyle="bold"
@@ -139,14 +144,14 @@
         android:layout_height="wrap_content"
         android:background="@drawable/mybutton"
         android:text="Sign Up"
-        android:textColor="#FFFF7B00"
+        android:textColor="@color/white"
         android:textSize="20sp"/>
 
     <TextView
         android:id="@+id/LogInTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="#FFFF7B00"
+        android:textColor="@color/black"
         android:textStyle="bold"
         android:textAlignment="center"
         android:text="Already have a account?"
@@ -155,3 +160,5 @@
         android:textAppearance="@android:style/TextAppearance.Material.Large" />
 
 </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>
