@@ -1,16 +1,14 @@
 package com.mytrip.data.post
-
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-
 @Dao
 interface PostDAO {
-    @Query("SELECT * FROM post")
-    fun getAll(): LiveData<MutableList<Post>>
+    @Query("SELECT * FROM post WHERE country = :country")
+    fun getCountryPosts(country: String): LiveData<MutableList<Post>>
 
     @Query("SELECT * FROM post WHERE userId = :userId")
     fun getPostsByUserId(userId: String): LiveData<MutableList<Post>>

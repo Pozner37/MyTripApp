@@ -45,7 +45,7 @@ class EditMyProfile : Fragment() {
                     binding.ProfileImageView.setImageURI(imageUri)
                 }
             } catch (e: Exception) {
-                Log.d("EditMyReview", "Error: $e")
+                Log.d("EditMyPost", "Error: $e")
                 Toast.makeText(
                     requireContext(), "Error processing result", Toast.LENGTH_SHORT
                 ).show()
