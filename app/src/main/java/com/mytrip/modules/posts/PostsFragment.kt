@@ -15,6 +15,7 @@ import com.mytrip.BasePostMapFragment
 import com.mytrip.CountryPageFragmentDirections
 import com.mytrip.R
 import com.mytrip.data.post.Post
+import com.mytrip.data.post.PostModel
 import com.mytrip.viewModels.UserViewModel
 
 class PostsFragment : Fragment(), PostCardsAdapter.OnPostItemClickListener {
@@ -35,7 +36,6 @@ class PostsFragment : Fragment(), PostCardsAdapter.OnPostItemClickListener {
             val postCardsAdapter = PostCardsAdapter(currPosts,userViewModel)
             postCardsAdapter.setOnPostItemClickListener(this)
             recyclerView.adapter = postCardsAdapter
-            //closeKeyboard(requireContext(), requireView())
         }
     }
 
@@ -81,7 +81,10 @@ class PostsFragment : Fragment(), PostCardsAdapter.OnPostItemClickListener {
 
     override fun onPostDeleteClicked(postId: String) {
         viewModel.posts.value?.let { posts ->
-            viewModel.setPosts(posts.filterNot { it.id == postId }.toMutableList())
+            val post = posts.firstOrNull { it.id == postId }
+            if ( post != null) {
+                PostModel.instance.deletePost(post) {};
+            }
         }
     }
 

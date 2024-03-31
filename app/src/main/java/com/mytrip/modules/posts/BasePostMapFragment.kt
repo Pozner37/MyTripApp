@@ -17,6 +17,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.mytrip.databinding.PostsWithMapBinding
 import com.mytrip.data.post.Post
+import com.mytrip.data.post.SerializableLatLng
 import com.mytrip.modules.posts.PostViewModel
 import com.mytrip.modules.posts.PostsFragment
 import com.mytrip.viewModels.LocationViewModel
@@ -49,7 +50,7 @@ abstract class BasePostMapFragment : Fragment(), OnMapReadyCallback, PostsFragme
         map = googleMap
         map.setOnMarkerClickListener(this)
         map.setOnMapLongClickListener {
-            val tempPost = Post("", "", "", "", it)
+            val tempPost = Post("", "", "", "", SerializableLatLng.fromGoogleLatLng(it))
             val action = CountryPageFragmentDirections.toCreatePostFragment(tempPost)
             findNavController().navigate(action)
         }
@@ -62,7 +63,7 @@ abstract class BasePostMapFragment : Fragment(), OnMapReadyCallback, PostsFragme
             map.clear()
             currLocationMarker = map.addMarker(MarkerOptions().position(LatLng(locationViewModel.location.value?.latitude!!, locationViewModel.location.value!!.longitude)))!!
             posts.forEach{post ->
-            val marker = map.addMarker(MarkerOptions().position(post.position))
+            val marker = map.addMarker(MarkerOptions().position(LatLng(post.position.latitude, post.position.longitude)))
             if (marker != null) {
                 marker.tag = post.id
             }
@@ -85,7 +86,7 @@ abstract class BasePostMapFragment : Fragment(), OnMapReadyCallback, PostsFragme
     override fun onPostItemClicked(postId: String) {
         val post = viewModel.posts.value?.find { curr -> curr.id === postId }
         if (post != null) {
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(post.position, 9f))
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(post.position.toGoogleLatLng(), 9f))
         }
     }
 
