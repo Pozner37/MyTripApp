@@ -21,8 +21,13 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
+import com.google.firebase.Firebase
+import com.mytrip.data.post.Post
+import com.mytrip.data.post.PostModel
 import com.mytrip.viewModels.LocationViewModel
 import java.util.Locale
+import java.util.UUID
+import com.google.firebase.auth.auth
 
 class CreatePostFragment : Fragment() {
     private lateinit var view: View
@@ -30,8 +35,10 @@ class CreatePostFragment : Fragment() {
     private lateinit var attachPictureButton: ImageButton
     private lateinit var submitButton: MaterialButton
     private lateinit var deviceLocation: Location
+    private lateinit var countryCode: String
     private var attachedPicture: Uri = Uri.EMPTY
     private var imageView: ImageView? = null
+    private val auth = Firebase.auth
 
     private val args: CreatePostFragmentArgs by navArgs()
 
@@ -45,7 +52,6 @@ class CreatePostFragment : Fragment() {
 
         val geocoder = context?.let { Geocoder(it, Locale.getDefault()) }
         val addresses = geocoder?.getFromLocation(args.post.position.latitude, args.post.position.longitude, 1)
-        var countryCode : String = "";
         if (addresses?.size!! > 0) {
             countryCode = addresses[0].countryCode
         } else {
@@ -66,7 +72,7 @@ class CreatePostFragment : Fragment() {
         imageView = view.findViewById(R.id.selected_image)
         submitButton = view.findViewById(R.id.post_submit)
 
-        if (args.post.id.length > 0) {
+        if (args.post.id.isNotEmpty()) {
             description.setText(args.post.description)
         }
     }
@@ -100,13 +106,21 @@ class CreatePostFragment : Fragment() {
             return
         }
 
-//        val newPost = Post(
-//            "sdsd", args.country.name.common ,description.text.toString() ,position = LatLng(23.123,234.23)
-//        )
+        val newPost = auth.currentUser?.let {
+            Post(
+                UUID.randomUUID().toString(),
+                it.uid,
+                description.text.toString(),
+                countryCode,
+                args.post.position,
+            )
+        }
 
-//        Model.instance.addPost(newPost, attachedPicture) {
-//            findNavController().popBackStack()
-//        }
+        if (newPost != null) {
+            PostModel.instance.addPost(newPost, attachedPicture) {
+                findNavController().popBackStack()
+            }
+        }
     }
 
     private val pickImageContract =
