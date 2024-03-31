@@ -11,21 +11,34 @@ import com.google.firebase.firestore.FieldValue
 import com.mytrip.MyTripApp
 import java.io.Serializable
 
+data class SerializableLatLng(val latitude: Double, val longitude: Double) : Serializable {
+    fun toGoogleLatLng(): LatLng {
+        return LatLng(latitude, longitude)
+    }
+
+    companion object {
+        fun fromGoogleLatLng(latLng: LatLng): SerializableLatLng {
+            return SerializableLatLng(latLng.latitude, latLng.longitude)
+        }
+    }
+}
+
 class LatLngConverter {
 
     @TypeConverter
-    fun fromLatLng(latLng: LatLng): String {
+    fun fromLatLng(latLng: SerializableLatLng): String {
         return "${latLng.latitude},${latLng.longitude}"
     }
 
     @TypeConverter
-    fun toLatLng(latLngString: String): LatLng {
+    fun toLatLng(latLngString: String): SerializableLatLng {
         val parts = latLngString.split(",")
         val latitude = parts[0].toDouble()
         val longitude = parts[1].toDouble()
-        return LatLng(latitude, longitude)
+        return SerializableLatLng(latitude, longitude)
     }
 }
+
 @Entity
 data class Post(
     @PrimaryKey
@@ -34,7 +47,7 @@ data class Post(
     val description: String,
     val country: String,
     @TypeConverters(LatLngConverter::class)
-    val position: LatLng,
+    val position: SerializableLatLng, // Use SerializableLatLng instead of LatLng
     var isDeleted: Boolean = false,
     var photo: String? = null,
     var timestamp: Long? = null,
@@ -69,7 +82,7 @@ data class Post(
             val country = json[COUNTRY_KEY] as? String ?: ""
             val isDeleted = json[IS_DELETED_KEY] as? Boolean ?: false
             val userId = json[USER_ID_KEY] as? String ?: ""
-            val position = json[POSITION_KEY] as? LatLng ?: LatLng(0.0,0.0)
+            val position = json[POSITION_KEY] as? SerializableLatLng ?: SerializableLatLng(0.0,0.0)
             val post = Post(id, userId, description, country,position, isDeleted)
 
             val timestamp: Timestamp? = json[LAST_UPDATED_KEY] as? Timestamp

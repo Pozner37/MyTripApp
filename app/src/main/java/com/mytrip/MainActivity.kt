@@ -20,6 +20,7 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.LatLng
 import com.mytrip.databinding.ActivityMainBinding
 import com.mytrip.data.post.Post
+import com.mytrip.data.post.SerializableLatLng
 import com.mytrip.viewModels.LocationViewModel
 
 class MainActivity : AppCompatActivity() {
@@ -67,9 +68,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.fab.setOnClickListener {
-            val tempPost = Post("", "", "", "",LatLng(locationViewModel.location.value?.latitude!!,
+            val tempPost = Post("", "", "", "", SerializableLatLng(locationViewModel.location.value?.latitude!!,
                 locationViewModel.location.value?.longitude!!
-            ))
+            )
+            )
             val action = CountryPageFragmentDirections.toCreatePostFragment(tempPost)
             navController.navigate(action)
         }
