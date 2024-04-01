@@ -25,6 +25,7 @@ import com.google.firebase.auth.auth
 import com.mytrip.data.post.Post
 import com.mytrip.data.post.PostModel
 import com.mytrip.data.post.SerializableLatLng
+import com.squareup.picasso.Picasso
 import java.util.Locale
 import java.util.UUID
 
@@ -127,6 +128,7 @@ class CreatePostFragment : Fragment() {
             try {
                 uri?.let {
                     attachedPicture = it
+                    Picasso.get().load(it).into(imageView)
                 }
             } catch (e: Exception) {
                 Log.d("CreatePost", "${e.message}")
