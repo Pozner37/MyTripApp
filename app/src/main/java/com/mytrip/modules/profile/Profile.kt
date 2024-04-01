@@ -12,6 +12,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.mytrip.R
 import com.mytrip.modules.login.LoginActivity
 import com.google.firebase.Firebase
@@ -35,10 +36,14 @@ class Profile : Fragment() {
         setProfileImage()
 
         root.findViewById<Button>(R.id.EditMyProfileButton).setOnClickListener {
-            Navigation.findNavController(root).navigate(R.id.action_profile_to_editMyProfile)
+            findNavController().navigate(R.id.action_profile_to_editMyProfile)
         }
         root.findViewById<Button>(R.id.LogOutButton).setOnClickListener {
             logOutUser()
+        }
+
+        root.findViewById<Button>(R.id.MyPostsButton).setOnClickListener {
+            findNavController().navigate(R.id.action_profile_to_MyPosts)
         }
         return root
     }

@@ -17,7 +17,6 @@ import com.mytrip.viewModels.UserViewModel
 class MyProfileFragment : BasePostMapFragment() {
 
     private val viewModel by activityViewModels<PostViewModel>()
-    private val userViewModel by activityViewModels<UserViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
