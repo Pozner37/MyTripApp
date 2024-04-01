@@ -82,7 +82,12 @@ data class Post(
             val country = json[COUNTRY_KEY] as? String ?: ""
             val isDeleted = json[IS_DELETED_KEY] as? Boolean ?: false
             val userId = json[USER_ID_KEY] as? String ?: ""
-            val position = json[POSITION_KEY] as? SerializableLatLng ?: SerializableLatLng(0.0,0.0)
+
+            val positionJson = json[POSITION_KEY] as? Map<String, Double>
+            val latitude = positionJson?.get("latitude") ?: 0.0
+            val longitude = positionJson?.get("longitude") ?: 0.0
+            val position = SerializableLatLng(latitude, longitude)
+
             val post = Post(id, userId, description, country,position, isDeleted)
 
             val timestamp: Timestamp? = json[LAST_UPDATED_KEY] as? Timestamp

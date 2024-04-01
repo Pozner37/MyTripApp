@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 import com.mytrip.R
 import com.mytrip.data.post.Post
 import com.mytrip.utils.CountriesApiManager
@@ -27,8 +29,7 @@ import kotlinx.coroutines.withContext
 class PostCardsAdapter(private val posts: List<Post>, private val userViewModel: UserViewModel) :
     RecyclerView.Adapter<PostCardsAdapter.PostViewHolder>() {
     private var onPostItemClickListener: OnPostItemClickListener? = null;
-
-
+    private val userId = Firebase.auth.uid;
     interface OnPostItemClickListener {
         fun onPostItemClicked(
             postId : String
@@ -84,8 +85,8 @@ class PostCardsAdapter(private val posts: List<Post>, private val userViewModel:
         holder.user.text = "User ${post.userId}"
         holder.description.text = post.description
 
-        holder.deleteBtn.isVisible = post.userId == userViewModel.user.id
-        holder.editBtn.isVisible = post.userId == userViewModel.user.id
+        holder.deleteBtn.isVisible = post.userId == userId
+        holder.editBtn.isVisible = post.userId == userId
 
         handleClicksCard(holder, position);
     }

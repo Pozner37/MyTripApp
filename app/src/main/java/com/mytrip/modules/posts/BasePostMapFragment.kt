@@ -63,7 +63,7 @@ abstract class BasePostMapFragment : Fragment(), OnMapReadyCallback, PostsFragme
             map.clear()
             currLocationMarker = map.addMarker(MarkerOptions().position(LatLng(locationViewModel.location.value?.latitude!!, locationViewModel.location.value!!.longitude)))!!
             posts.forEach{post ->
-            val marker = map.addMarker(MarkerOptions().position(LatLng(post.position.latitude, post.position.longitude)))
+            val marker = map.addMarker(MarkerOptions().position(post.position.toGoogleLatLng()))
             if (marker != null) {
                 marker.tag = post.id
             }
