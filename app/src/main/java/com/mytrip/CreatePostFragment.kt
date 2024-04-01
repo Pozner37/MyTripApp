@@ -14,7 +14,6 @@ import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.button.MaterialButton
@@ -22,12 +21,12 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 import com.mytrip.data.post.Post
 import com.mytrip.data.post.PostModel
-import com.mytrip.viewModels.LocationViewModel
+import com.mytrip.data.post.SerializableLatLng
 import java.util.Locale
 import java.util.UUID
-import com.google.firebase.auth.auth
 
 class CreatePostFragment : Fragment() {
     private lateinit var view: View
@@ -55,7 +54,7 @@ class CreatePostFragment : Fragment() {
         if (addresses?.size!! > 0) {
             countryCode = addresses[0].countryCode
         } else {
-            //findNavController().popBackStack()
+            findNavController().popBackStack()
         }
         initViews(view)
         handleSubmitButton()
@@ -112,7 +111,7 @@ class CreatePostFragment : Fragment() {
                 it.uid,
                 description.text.toString(),
                 countryCode,
-                args.post.position,
+                SerializableLatLng(args.post.position.latitude, args.post.position.longitude),
             )
         }
 

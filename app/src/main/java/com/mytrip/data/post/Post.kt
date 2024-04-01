@@ -102,7 +102,8 @@ data class Post(
                 LAST_UPDATED_KEY to FieldValue.serverTimestamp(),
                 DESCRIPTION_KEY to description,
                 COUNTRY_KEY to country,
-                IS_DELETED_KEY to isDeleted
+                IS_DELETED_KEY to isDeleted,
+                POSITION_KEY to position
             )
         }
 
