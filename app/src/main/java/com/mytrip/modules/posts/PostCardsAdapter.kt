@@ -79,7 +79,7 @@ class PostCardsAdapter(private val posts: List<Post>, private val userViewModel:
                 })
         }
         Glide.with(holder.itemView)
-            .load("https://cdn-v2.theculturetrip.com/1200x675/wp-content/uploads/2017/10/trolltunga--rob-bye-unsplash.webp")
+            .load(post.photo)
             .into(holder.image)
         holder.image.contentDescription = post.description
         holder.user.text = "User ${post.userId}"
