@@ -26,7 +26,7 @@ class PostFirebaseModel {
     }
 
 
-    fun getCountryPosts(since: Long, callback: (List<Post>) -> Unit) {
+    fun getPosts(since: Long, callback: (List<Post>) -> Unit) {
         db.collection(POSTS_COLLECTION_PATH)
             .whereGreaterThanOrEqualTo(Post.LAST_UPDATED_KEY, Timestamp(since, 0))
             .get().addOnCompleteListener {

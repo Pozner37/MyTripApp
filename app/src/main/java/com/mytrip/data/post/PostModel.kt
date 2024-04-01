@@ -27,21 +27,21 @@ class PostModel private constructor() {
     }
 
     fun getCountryPosts(countryName: String): LiveData<MutableList<Post>> {
-        refreshCountryPosts()
+        refreshPosts()
         return posts ?: database.postDao().getCountryPosts(countryName)
     }
 
     fun getMyPosts(): LiveData<MutableList<Post>> {
-        refreshCountryPosts()
+        refreshPosts()
         return posts ?: database.postDao().getPostsByUserId(Firebase.auth.currentUser?.uid!!)
     }
 
-    fun refreshCountryPosts() {
+    private fun refreshPosts() {
         postsListLoadingState.value = LoadingState.LOADING
 
         val lastUpdated: Long = Post.lastUpdated
 
-        firebaseModel.getCountryPosts(lastUpdated) { list ->
+        firebaseModel.getPosts(lastUpdated) { list ->
             var time = lastUpdated
             for (post in list) {
                 if (post.isDeleted) {
@@ -70,7 +70,7 @@ class PostModel private constructor() {
     fun addPost(post: Post, selectedImageUri: Uri, callback: () -> Unit) {
         firebaseModel.addPost(post) {
             firebaseModel.addPostImage(post.id, selectedImageUri) {
-                refreshCountryPosts()
+                refreshPosts()
                 callback()
             }
         }
@@ -78,21 +78,21 @@ class PostModel private constructor() {
 
     fun deletePost(post: Post, callback: () -> Unit) {
         firebaseModel.deletePost(post) {
-            refreshCountryPosts()
+            refreshPosts()
             callback()
         }
     }
 
     fun updatePost(post: Post?, callback: () -> Unit) {
         firebaseModel.updatePost(post) {
-            refreshCountryPosts()
+            refreshPosts()
             callback()
         }
     }
 
     fun updatePostImage(postId: String, selectedImageUri: Uri, callback: () -> Unit) {
         firebaseModel.addPostImage(postId, selectedImageUri) {
-            refreshCountryPosts()
+            refreshPosts()
             callback()
         }
     }
