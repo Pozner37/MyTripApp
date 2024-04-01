@@ -38,7 +38,7 @@
         android:id="@+id/MyPostsFragment"
         android:name="com.mytrip.MyProfileFragment"
         android:label="My Posts"
-        tools:layout="@layout/posts_list_fragment">s
+        tools:layout="@layout/posts_list_fragment">
     </fragment>
     <fragment
         android:id="@+id/MyProfileFragment"
