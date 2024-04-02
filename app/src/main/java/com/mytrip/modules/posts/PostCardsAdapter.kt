@@ -19,9 +19,7 @@ import com.google.firebase.auth.auth
 import com.mytrip.R
 import com.mytrip.data.post.Post
 import com.mytrip.data.user.User
-import com.mytrip.data.user.UserModel
 import com.mytrip.utils.CountriesApiManager
-import com.mytrip.viewModels.UserViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

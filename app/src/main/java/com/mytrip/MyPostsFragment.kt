@@ -11,7 +11,7 @@ import com.mytrip.data.post.PostModel
 import com.mytrip.modules.posts.PostViewModel
 
 
-class MyProfileFragment : BasePostMapFragment() {
+class MyPostsFragment : BasePostMapFragment() {
 
     private val viewModel by activityViewModels<PostViewModel>()
 

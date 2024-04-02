@@ -19,7 +19,6 @@ import com.mytrip.R
 import com.mytrip.data.post.Post
 import com.mytrip.data.post.PostModel
 import com.mytrip.data.user.User
-import com.mytrip.viewModels.UserViewModel
 
 class PostsFragment : Fragment(), PostCardsAdapter.OnPostItemClickListener {
     private lateinit var recyclerView: RecyclerView
