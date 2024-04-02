@@ -39,6 +39,7 @@ class CreatePostFragment : Fragment() {
     private var attachedPicture: Uri = Uri.EMPTY
     private var imageView: ImageView? = null
     private val auth = Firebase.auth
+    private var hasImageChanged = false
 
     private val args: CreatePostFragmentArgs by navArgs()
 
@@ -75,6 +76,11 @@ class CreatePostFragment : Fragment() {
         if (args.post.id.isNotEmpty()) {
             description.setText(args.post.description)
         }
+
+        PostModel.instance.getPostImage(args.post.id) {
+            attachedPicture = it
+            Picasso.get().load(it).into(imageView)
+        }
     }
 
     private fun handleSubmitButton() {
@@ -106,9 +112,17 @@ class CreatePostFragment : Fragment() {
             return
         }
 
+        var postId: String;
+
+        if (args.post.id.isNotEmpty()) {
+            postId = args.post.id
+        } else {
+            postId = UUID.randomUUID().toString()
+        }
+
         val newPost = auth.currentUser?.let {
             Post(
-                UUID.randomUUID().toString(),
+                postId,
                 it.uid,
                 description.text.toString(),
                 countryCode,
@@ -117,8 +131,18 @@ class CreatePostFragment : Fragment() {
         }
 
         if (newPost != null) {
-            PostModel.instance.addPost(newPost, attachedPicture) {
-                findNavController().popBackStack()
+            if (args.post.id.isNotEmpty()) {
+                PostModel.instance.updatePost(newPost) {
+                    if (hasImageChanged) {
+                        PostModel.instance.updatePostImage(newPost.id, attachedPicture) {
+                            findNavController().popBackStack()
+                        }
+                    }
+                }
+            } else {
+                PostModel.instance.addPost(newPost, attachedPicture) {
+                    findNavController().popBackStack()
+                }
             }
         }
     }
@@ -129,6 +153,7 @@ class CreatePostFragment : Fragment() {
                 uri?.let {
                     attachedPicture = it
                     Picasso.get().load(it).into(imageView)
+                    hasImageChanged = true
                 }
             } catch (e: Exception) {
                 Log.d("CreatePost", "${e.message}")
