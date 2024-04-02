@@ -1,5 +1,7 @@
 package com.mytrip
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -13,6 +15,8 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.model.BitmapDescriptor
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.mytrip.databinding.PostsWithMapBinding
@@ -32,6 +36,8 @@ abstract class BasePostMapFragment : Fragment(), OnMapReadyCallback, PostsFragme
     private val viewModel by activityViewModels<PostViewModel>()
     private val locationViewModel by activityViewModels<LocationViewModel>()
     private var currLocationMarker: Marker? = null
+    private var myLocationIcon : BitmapDescriptor? = null
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,7 +48,7 @@ abstract class BasePostMapFragment : Fragment(), OnMapReadyCallback, PostsFragme
 
         val mapFragment = childFragmentManager.findFragmentById(R.id.map_fragment) as SupportMapFragment
         mapFragment.getMapAsync(this)
-
+        myLocationIcon = BitmapDescriptorFactory.fromBitmap(Bitmap.createScaledBitmap(BitmapFactory.decodeResource(resources, R.drawable.my_location),200,200,false));
         return binding.root
     }
 
@@ -56,12 +62,12 @@ abstract class BasePostMapFragment : Fragment(), OnMapReadyCallback, PostsFragme
         }
         locationViewModel.location.observe(viewLifecycleOwner, Observer {
             currLocationMarker?.remove()
-            currLocationMarker = map.addMarker(MarkerOptions().position(LatLng(it.latitude, it.longitude)))!!
+            currLocationMarker = map.addMarker(MarkerOptions().position(LatLng(it.latitude, it.longitude)).icon(myLocationIcon))!!
         })
         viewModel.posts.observe(viewLifecycleOwner, Observer {
             posts ->
             map.clear()
-            currLocationMarker = map.addMarker(MarkerOptions().position(LatLng(locationViewModel.location.value?.latitude!!, locationViewModel.location.value!!.longitude)))!!
+            currLocationMarker = map.addMarker(MarkerOptions().position(LatLng(locationViewModel.location.value?.latitude!!, locationViewModel.location.value!!.longitude)).icon(myLocationIcon))!!
             posts.forEach{post ->
             val marker = map.addMarker(MarkerOptions().position(post.position.toGoogleLatLng()))
             if (marker != null) {

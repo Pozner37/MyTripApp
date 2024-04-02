@@ -1,7 +1,6 @@
 package com.mytrip
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,7 +29,7 @@ class CountryPageFragment : BasePostMapFragment() {
     ): View? {
         val view: View? = super.onCreateView(inflater, container, savedInstanceState)
 
-        viewModel.posts = PostModel.instance.getCountryPosts(args.countryCode);
+        viewModel.assignPosts(PostModel.instance.getCountryPosts(args.countryCode));
 
         lifecycleScope.launch {
             fetchCountry()
