@@ -98,10 +98,10 @@ class PostsFragment : Fragment(), PostCardsAdapter.OnPostItemClickListener {
 
     }
 
-    override fun onPostCountryClicked(countryName: String) {
+    override fun onPostCountryClicked(countryCode : String) {
         val navController = findNavController()
         if (navController.currentDestination?.id != R.id.CountryPageFragment) {
-            val action = PostsFragmentDirections.postCountryToCountryPageFragment(countryName);
+            val action = PostsFragmentDirections.postCountryToCountryPageFragment(countryCode);
             findNavController().navigate(action)
         }
     }

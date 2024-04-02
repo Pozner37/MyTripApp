@@ -26,9 +26,9 @@ class PostModel private constructor() {
         val instance: PostModel = PostModel()
     }
 
-    fun getCountryPosts(countryName: String): LiveData<MutableList<Post>> {
+    fun getCountryPosts(countryCode: String): LiveData<MutableList<Post>> {
         refreshPosts()
-        return posts ?: database.postDao().getCountryPosts(countryName)
+        return posts ?: database.postDao().getCountryPosts(countryCode)
     }
 
     fun getMyPosts(): LiveData<MutableList<Post>> {

@@ -28,7 +28,7 @@ abstract class BasePostMapFragment : Fragment(), OnMapReadyCallback, PostsFragme
     private var _binding: PostsWithMapBinding? = null
 
     private val binding get() = _binding!!
-    private lateinit var map: GoogleMap
+    lateinit var map: GoogleMap
     private val viewModel by activityViewModels<PostViewModel>()
     private val locationViewModel by activityViewModels<LocationViewModel>()
     private var currLocationMarker: Marker? = null

@@ -1,40 +1,48 @@
 package com.mytrip
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.model.LatLng
+import com.mytrip.classes.Country
 import com.mytrip.data.post.PostModel
 import com.mytrip.modules.posts.PostViewModel
+import com.mytrip.utils.CountriesApiManager
+import kotlinx.coroutines.launch
 
 
 class CountryPageFragment : BasePostMapFragment() {
 
     private val args: CountryPageFragmentArgs by navArgs()
     private val viewModel by activityViewModels<PostViewModel>()
-    private  lateinit var countryName : String;
+    private lateinit var country : Country;
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view: View? = super.onCreateView(inflater, container, savedInstanceState)
-        countryName = args.countryName;
-//        viewModel.setPosts(mutableListOf(
-//            Post("1","1",countryName,"Post 1", LatLng(32.0,35.0)),
-//            Post("2","2",countryName,"Post 2", LatLng(33.0,34.0)),
-//            Post("3","3",countryName,"Post 3", LatLng(31.0,35.0)),
-//            Post("4","4",countryName,"Post 4", LatLng(31.0,35.5))
-//        ))
-        viewModel.posts = PostModel.instance.getCountryPosts(countryName);
+
+        viewModel.posts = PostModel.instance.getCountryPosts(args.countryCode);
+
+        lifecycleScope.launch {
+            fetchCountry()
+        }
+
         return view;
     }
 
-    override fun onResume() {
-        super.onResume()
-        (requireActivity() as AppCompatActivity).supportActionBar?.title = countryName
+    private suspend fun fetchCountry() {
+        country = CountriesApiManager().getCountryByCode(args.countryCode)
+        (requireActivity() as AppCompatActivity).supportActionBar?.title = country.name.common;
+        super.map.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(country.countryPosition[0], country.countryPosition[1]), 6f))
     }
+
 }
