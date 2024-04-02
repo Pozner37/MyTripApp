@@ -1,24 +1,29 @@
 package com.mytrip
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import com.mytrip.posts.PostViewModel
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.MarkerOptions
-import com.mytrip.posts.PostsFragment
 import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.model.BitmapDescriptor
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
-import com.mytrip.classes.Post
 import com.mytrip.databinding.PostsWithMapBinding
+import com.mytrip.data.post.Post
+import com.mytrip.data.post.SerializableLatLng
+import com.mytrip.modules.posts.PostViewModel
+import com.mytrip.modules.posts.PostsFragment
 import com.mytrip.viewModels.LocationViewModel
 
 
@@ -27,10 +32,12 @@ abstract class BasePostMapFragment : Fragment(), OnMapReadyCallback, PostsFragme
     private var _binding: PostsWithMapBinding? = null
 
     private val binding get() = _binding!!
-    private lateinit var map: GoogleMap
+    lateinit var map: GoogleMap
     private val viewModel by activityViewModels<PostViewModel>()
     private val locationViewModel by activityViewModels<LocationViewModel>()
     private var currLocationMarker: Marker? = null
+    private var myLocationIcon : BitmapDescriptor? = null
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,7 +48,7 @@ abstract class BasePostMapFragment : Fragment(), OnMapReadyCallback, PostsFragme
 
         val mapFragment = childFragmentManager.findFragmentById(R.id.map_fragment) as SupportMapFragment
         mapFragment.getMapAsync(this)
-
+        myLocationIcon = BitmapDescriptorFactory.fromBitmap(Bitmap.createScaledBitmap(BitmapFactory.decodeResource(resources, R.drawable.my_location),200,200,false));
         return binding.root
     }
 
@@ -49,20 +56,20 @@ abstract class BasePostMapFragment : Fragment(), OnMapReadyCallback, PostsFragme
         map = googleMap
         map.setOnMarkerClickListener(this)
         map.setOnMapLongClickListener {
-            val tempPost = Post("", "", "", "", it)
+            val tempPost = Post("", "", "", "", SerializableLatLng.fromGoogleLatLng(it))
             val action = CountryPageFragmentDirections.toCreatePostFragment(tempPost)
             findNavController().navigate(action)
         }
         locationViewModel.location.observe(viewLifecycleOwner, Observer {
             currLocationMarker?.remove()
-            currLocationMarker = map.addMarker(MarkerOptions().position(LatLng(it.latitude, it.longitude)))!!
+            currLocationMarker = map.addMarker(MarkerOptions().position(LatLng(it.latitude, it.longitude)).icon(myLocationIcon))!!
         })
         viewModel.posts.observe(viewLifecycleOwner, Observer {
             posts ->
             map.clear()
-            currLocationMarker = map.addMarker(MarkerOptions().position(LatLng(locationViewModel.location.value?.latitude!!, locationViewModel.location.value!!.longitude)))!!
+            currLocationMarker = map.addMarker(MarkerOptions().position(LatLng(locationViewModel.location.value?.latitude!!, locationViewModel.location.value!!.longitude)).icon(myLocationIcon))!!
             posts.forEach{post ->
-            val marker = map.addMarker(MarkerOptions().position(post.position))
+            val marker = map.addMarker(MarkerOptions().position(post.position.toGoogleLatLng()))
             if (marker != null) {
                 marker.tag = post.id
             }
@@ -85,7 +92,7 @@ abstract class BasePostMapFragment : Fragment(), OnMapReadyCallback, PostsFragme
     override fun onPostItemClicked(postId: String) {
         val post = viewModel.posts.value?.find { curr -> curr.id === postId }
         if (post != null) {
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(post.position, 9f))
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(post.position.toGoogleLatLng(), 9f))
         }
     }
 

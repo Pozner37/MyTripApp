@@ -13,7 +13,9 @@ data class CountryFlag (
 
 data class Country(
     @SerializedName("name") val name: CountryName,
-    @SerializedName("flags") val flags: CountryFlag
+    @SerializedName("flags") val flags: CountryFlag,
+    @SerializedName("cca2") val code: String,
+    @SerializedName("latlng") val countryPosition : Array<Double>
 ): Serializable
 
 data class Flag (

@@ -1,4 +1,4 @@
-package com.mytrip.db.post
+package com.mytrip.data.post
 
 import android.net.Uri
 import android.util.Log
@@ -26,7 +26,7 @@ class PostFirebaseModel {
     }
 
 
-    fun getAllPosts(since: Long, callback: (List<Post>) -> Unit) {
+    fun getPosts(since: Long, callback: (List<Post>) -> Unit) {
         db.collection(POSTS_COLLECTION_PATH)
             .whereGreaterThanOrEqualTo(Post.LAST_UPDATED_KEY, Timestamp(since, 0))
             .get().addOnCompleteListener {

@@ -1,10 +1,12 @@
-package com.mytrip.posts
+package com.mytrip.modules.posts
 
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.LiveData
@@ -14,14 +16,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mytrip.BasePostMapFragment
 import com.mytrip.CountryPageFragmentDirections
 import com.mytrip.R
-import com.mytrip.classes.Post
-import com.mytrip.viewModels.UserViewModel
+import com.mytrip.data.post.Post
+import com.mytrip.data.post.PostModel
+import com.mytrip.data.user.User
 
 class PostsFragment : Fragment(), PostCardsAdapter.OnPostItemClickListener {
     private lateinit var recyclerView: RecyclerView
     private val viewModel by activityViewModels<PostViewModel>()
-    private val userViewModel by activityViewModels<UserViewModel>()
     private var onPostItemClickListener: OnPostItemClickListener? = null
+    private lateinit var noPostText : TextView
 
     interface OnPostItemClickListener {
         fun onPostItemClicked(postId: String)
@@ -29,13 +32,22 @@ class PostsFragment : Fragment(), PostCardsAdapter.OnPostItemClickListener {
 
     fun observePostViewModel(
         recyclerView: RecyclerView,
-        posts: LiveData<MutableList<Post>>?
+        posts: LiveData<MutableList<Post>>?,
+        users: LiveData<MutableList<User>>?
     ) {
         posts?.observe(viewLifecycleOwner) { currPosts: List<Post> ->
-            val postCardsAdapter = PostCardsAdapter(currPosts,userViewModel)
-            postCardsAdapter.setOnPostItemClickListener(this)
-            recyclerView.adapter = postCardsAdapter
-            //closeKeyboard(requireContext(), requireView())
+            if (currPosts.size > 0) {
+                noPostText.isVisible = false;
+                recyclerView.isVisible = true;
+                users?.observe(viewLifecycleOwner) { currUsers: List<User> ->
+                    val postCardsAdapter = PostCardsAdapter(currPosts, currUsers);
+                    postCardsAdapter.setOnPostItemClickListener(this)
+                    recyclerView.adapter = postCardsAdapter
+                }
+            } else {
+                noPostText.isVisible = true;
+                recyclerView.isVisible = false;
+            }
         }
     }
 
@@ -52,7 +64,7 @@ class PostsFragment : Fragment(), PostCardsAdapter.OnPostItemClickListener {
         if (view != null) {
             initViews(view)
         }
-
+        noPostText = view?.findViewById<TextView>(R.id.no_posts_text_view)!!;
         setupRecyclerView()
         observePostViewModel()
         return view
@@ -67,7 +79,7 @@ class PostsFragment : Fragment(), PostCardsAdapter.OnPostItemClickListener {
     }
 
     private fun observePostViewModel() {
-        observePostViewModel(recyclerView, viewModel.posts)
+        observePostViewModel(recyclerView, viewModel.posts, viewModel.users)
     }
 
     fun setOnPostItemClickListener(listener: BasePostMapFragment) {
@@ -81,7 +93,10 @@ class PostsFragment : Fragment(), PostCardsAdapter.OnPostItemClickListener {
 
     override fun onPostDeleteClicked(postId: String) {
         viewModel.posts.value?.let { posts ->
-            viewModel.setPosts(posts.filterNot { it.id == postId }.toMutableList())
+            val post = posts.firstOrNull { it.id == postId }
+            if ( post != null) {
+                PostModel.instance.deletePost(post) {};
+            }
         }
     }
 
@@ -95,10 +110,10 @@ class PostsFragment : Fragment(), PostCardsAdapter.OnPostItemClickListener {
 
     }
 
-    override fun onPostCountryClicked(countryName: String) {
+    override fun onPostCountryClicked(countryCode : String) {
         val navController = findNavController()
         if (navController.currentDestination?.id != R.id.CountryPageFragment) {
-            val action = PostsFragmentDirections.postCountryToCountryPageFragment(countryName);
+            val action = PostsFragmentDirections.postCountryToCountryPageFragment(countryCode);
             findNavController().navigate(action)
         }
     }

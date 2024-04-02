@@ -8,9 +8,12 @@ import retrofit2.http.Path
 
 interface CountriesApi {
 
-    @GET("all?fields=flags,name")
+    @GET("all?fields=flags,name,cca2,latlng")
     suspend fun  getAllCountries(): List<Country>
 
-    @GET("name/{country}?fields=flags")
-    fun getCountryFlag(@Path("country") countryName: String): Call<List<Flag>>
+    @GET("alpha/{country}?fields=flags")
+    fun getCountryFlag(@Path("country") countryCode: String): Call<Flag>
+
+    @GET("alpha/{countryCode}?fields=flags,name,cca2,latlng")
+    suspend fun getCountryByCode(@Path("countryCode") countryCode: String): Country
 }

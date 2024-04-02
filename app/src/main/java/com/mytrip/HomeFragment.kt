@@ -70,7 +70,7 @@ class HomeFragment : Fragment() {
             val imageButtonTitle: TextView = buttonLayout.findViewById(R.id.gridButtonTitle)
 
             imageButton.setOnClickListener {
-                val action = HomeFragmentDirections.actionHomeFragmentToCountryFragment(country.name.common);
+                val action = HomeFragmentDirections.actionHomeFragmentToCountryFragment(country.code);
                 findNavController().navigate(action)
             }
 

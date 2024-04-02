@@ -14,15 +14,20 @@ import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
-import com.mytrip.viewModels.LocationViewModel
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
+import com.mytrip.data.post.Post
+import com.mytrip.data.post.PostModel
+import com.mytrip.data.post.SerializableLatLng
+import com.squareup.picasso.Picasso
 import java.util.Locale
+import java.util.UUID
 
 class CreatePostFragment : Fragment() {
     private lateinit var view: View
@@ -30,8 +35,11 @@ class CreatePostFragment : Fragment() {
     private lateinit var attachPictureButton: ImageButton
     private lateinit var submitButton: MaterialButton
     private lateinit var deviceLocation: Location
+    private lateinit var countryCode: String
     private var attachedPicture: Uri = Uri.EMPTY
     private var imageView: ImageView? = null
+    private val auth = Firebase.auth
+    private var hasImageChanged = false
 
     private val args: CreatePostFragmentArgs by navArgs()
 
@@ -45,11 +53,10 @@ class CreatePostFragment : Fragment() {
 
         val geocoder = context?.let { Geocoder(it, Locale.getDefault()) }
         val addresses = geocoder?.getFromLocation(args.post.position.latitude, args.post.position.longitude, 1)
-        var countryCode : String = "";
         if (addresses?.size!! > 0) {
             countryCode = addresses[0].countryCode
         } else {
-            //findNavController().popBackStack()
+            findNavController().popBackStack()
         }
         initViews(view)
         handleSubmitButton()
@@ -66,8 +73,13 @@ class CreatePostFragment : Fragment() {
         imageView = view.findViewById(R.id.selected_image)
         submitButton = view.findViewById(R.id.post_submit)
 
-        if (args.post.id != null) {
+        if (args.post.id.isNotEmpty()) {
             description.setText(args.post.description)
+        }
+
+        PostModel.instance.getPostImage(args.post.id) {
+            attachedPicture = it
+            Picasso.get().load(it).into(imageView)
         }
     }
 
@@ -100,13 +112,39 @@ class CreatePostFragment : Fragment() {
             return
         }
 
-//        val newPost = Post(
-//            "sdsd", args.country.name.common ,description.text.toString() ,position = LatLng(23.123,234.23)
-//        )
+        var postId: String;
 
-//        Model.instance.addPost(newPost, attachedPicture) {
-//            findNavController().popBackStack()
-//        }
+        if (args.post.id.isNotEmpty()) {
+            postId = args.post.id
+        } else {
+            postId = UUID.randomUUID().toString()
+        }
+
+        val newPost = auth.currentUser?.let {
+            Post(
+                postId,
+                it.uid,
+                description.text.toString(),
+                countryCode,
+                SerializableLatLng(args.post.position.latitude, args.post.position.longitude),
+            )
+        }
+
+        if (newPost != null) {
+            if (args.post.id.isNotEmpty()) {
+                PostModel.instance.updatePost(newPost) {
+                    if (hasImageChanged) {
+                        PostModel.instance.updatePostImage(newPost.id, attachedPicture) {
+                            findNavController().popBackStack()
+                        }
+                    }
+                }
+            } else {
+                PostModel.instance.addPost(newPost, attachedPicture) {
+                    findNavController().popBackStack()
+                }
+            }
+        }
     }
 
     private val pickImageContract =
@@ -114,6 +152,8 @@ class CreatePostFragment : Fragment() {
             try {
                 uri?.let {
                     attachedPicture = it
+                    Picasso.get().load(it).into(imageView)
+                    hasImageChanged = true
                 }
             } catch (e: Exception) {
                 Log.d("CreatePost", "${e.message}")

@@ -1,4 +1,4 @@
-package com.mytrip.posts
+package com.mytrip.modules.posts
 
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
@@ -14,21 +14,22 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 import com.mytrip.R
-import com.mytrip.classes.Post
+import com.mytrip.data.post.Post
+import com.mytrip.data.user.User
 import com.mytrip.utils.CountriesApiManager
-import com.mytrip.viewModels.UserViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 
-class PostCardsAdapter(private val posts: List<Post>, private val userViewModel: UserViewModel) :
+class PostCardsAdapter(private val posts: List<Post>, private val users: List<User>) :
     RecyclerView.Adapter<PostCardsAdapter.PostViewHolder>() {
     private var onPostItemClickListener: OnPostItemClickListener? = null;
-
-
+    private val userId = Firebase.auth.uid;
     interface OnPostItemClickListener {
         fun onPostItemClicked(
             postId : String
@@ -62,8 +63,9 @@ class PostCardsAdapter(private val posts: List<Post>, private val userViewModel:
 
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
         val post = posts[position]
+        val user = users.find { it.id == post.userId }
         CoroutineScope(Dispatchers.Main).launch {
-            val x = getCountryFlag(post.countryName);
+            val x = getCountryFlag(post.country);
             Glide.with(holder.itemView)
                 .asBitmap()
                 .load(x)
@@ -78,21 +80,21 @@ class PostCardsAdapter(private val posts: List<Post>, private val userViewModel:
                 })
         }
         Glide.with(holder.itemView)
-            .load("https://cdn-v2.theculturetrip.com/1200x675/wp-content/uploads/2017/10/trolltunga--rob-bye-unsplash.webp")
+            .load(post.photo)
             .into(holder.image)
         holder.image.contentDescription = post.description
-        holder.user.text = "User ${post.userId}"
+        holder.user.text = "${user?.firstName} ${user?.lastName}"
         holder.description.text = post.description
 
-        holder.deleteBtn.isVisible = post.userId == userViewModel.user.id
-        holder.editBtn.isVisible = post.userId == userViewModel.user.id
+        holder.deleteBtn.isVisible = post.userId == userId
+        holder.editBtn.isVisible = post.userId == userId
 
         handleClicksCard(holder, position);
     }
 
-    private suspend fun getCountryFlag(countryName : String) : String {
+    private suspend fun getCountryFlag(countryCode : String) : String {
         return withContext(Dispatchers.IO) {
-            CountriesApiManager().getCountryFlag(countryName).execute().body()?.get(0)?.flags?.png
+            CountriesApiManager().getCountryFlag(countryCode).execute().body()?.flags?.png
                 ?: ""
         }
     }
@@ -113,7 +115,7 @@ class PostCardsAdapter(private val posts: List<Post>, private val userViewModel:
             onPostItemClickListener?.onPostEditClicked(post)
         }
         holder.countryImage.setOnClickListener {
-            onPostItemClickListener?.onPostCountryClicked(post.countryName)
+            onPostItemClickListener?.onPostCountryClicked(post.country)
         }
     }
 

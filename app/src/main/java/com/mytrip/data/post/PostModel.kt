@@ -1,13 +1,12 @@
-package com.mytrip.db.post
+package com.mytrip.data.post
 
 import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.mytrip.db.LocalDB
 import java.util.concurrent.Executors
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
-
+import com.mytrip.data.AppLocalDatabase
 class PostModel private constructor() {
 
     enum class LoadingState {
@@ -15,11 +14,11 @@ class PostModel private constructor() {
         LOADED
     }
 
-    private val database = LocalDB.db
-    private var reviewsExecutor = Executors.newSingleThreadExecutor()
+    private val database = AppLocalDatabase.db
+    private var postsExecutor = Executors.newSingleThreadExecutor()
     private val firebaseModel = PostFirebaseModel()
-    private val reviews: LiveData<MutableList<Post>>? = null
-    val reviewsListLoadingState: MutableLiveData<LoadingState> =
+    private val posts: LiveData<MutableList<Post>>? = null
+    val postsListLoadingState: MutableLiveData<LoadingState> =
         MutableLiveData(LoadingState.LOADED)
 
 
@@ -27,31 +26,31 @@ class PostModel private constructor() {
         val instance: PostModel = PostModel()
     }
 
-    fun getAllPosts(): LiveData<MutableList<Post>> {
-        refreshAllPosts()
-        return reviews ?: database.postDao().getAll()
+    fun getCountryPosts(countryCode: String): LiveData<MutableList<Post>> {
+        refreshPosts()
+        return posts ?: database.postDao().getCountryPosts(countryCode)
     }
 
     fun getMyPosts(): LiveData<MutableList<Post>> {
-        refreshAllPosts()
-        return reviews ?: database.postDao().getPostsByUserId(Firebase.auth.currentUser?.uid!!)
+        refreshPosts()
+        return posts ?: database.postDao().getPostsByUserId(Firebase.auth.currentUser?.uid!!)
     }
 
-    fun refreshAllPosts() {
-        reviewsListLoadingState.value = LoadingState.LOADING
+    private fun refreshPosts() {
+        postsListLoadingState.value = LoadingState.LOADING
 
         val lastUpdated: Long = Post.lastUpdated
 
-        firebaseModel.getAllPosts(lastUpdated) { list ->
+        firebaseModel.getPosts(lastUpdated) { list ->
             var time = lastUpdated
             for (post in list) {
                 if (post.isDeleted) {
-                    reviewsExecutor.execute {
+                    postsExecutor.execute {
                         database.postDao().delete(post)
                     }
                 } else {
                     firebaseModel.getImage(post.id) { uri ->
-                        reviewsExecutor.execute {
+                        postsExecutor.execute {
                             post.photo = uri.toString()
                             database.postDao().insert(post)
                         }
@@ -64,36 +63,36 @@ class PostModel private constructor() {
                     Post.lastUpdated = time
                 }
             }
-            reviewsListLoadingState.postValue(LoadingState.LOADED)
+            postsListLoadingState.postValue(LoadingState.LOADED)
         }
     }
 
-    fun addPost(review: Post, selectedImageUri: Uri, callback: () -> Unit) {
-        firebaseModel.addPost(review) {
-            firebaseModel.addPostImage(review.id, selectedImageUri) {
-                refreshAllPosts()
+    fun addPost(post: Post, selectedImageUri: Uri, callback: () -> Unit) {
+        firebaseModel.addPost(post) {
+            firebaseModel.addPostImage(post.id, selectedImageUri) {
+                refreshPosts()
                 callback()
             }
         }
     }
 
-    fun deletePost(review: Post?, callback: () -> Unit) {
-        firebaseModel.deletePost(review) {
-            refreshAllPosts()
+    fun deletePost(post: Post, callback: () -> Unit) {
+        firebaseModel.deletePost(post) {
+            refreshPosts()
             callback()
         }
     }
 
-    fun updatePost(review: Post?, callback: () -> Unit) {
-        firebaseModel.updatePost(review) {
-            refreshAllPosts()
+    fun updatePost(post: Post?, callback: () -> Unit) {
+        firebaseModel.updatePost(post) {
+            refreshPosts()
             callback()
         }
     }
 
-    fun updatePostImage(reviewId: String, selectedImageUri: Uri, callback: () -> Unit) {
-        firebaseModel.addPostImage(reviewId, selectedImageUri) {
-            refreshAllPosts()
+    fun updatePostImage(postId: String, selectedImageUri: Uri, callback: () -> Unit) {
+        firebaseModel.addPostImage(postId, selectedImageUri) {
+            refreshPosts()
             callback()
         }
     }

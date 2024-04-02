@@ -1,4 +1,4 @@
-package com.mytrip.db.user
+package com.mytrip.data.user
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
@@ -9,7 +9,7 @@ import androidx.room.Query
 
 @Dao
 interface UserDAO {
-    @Query("SELECT * FROM user where id in (select userId from review)")
+    @Query("SELECT * FROM user")
     fun getAll(): LiveData<MutableList<User>>
 
     @Query("SELECT * FROM user where id = :userId")
@@ -19,5 +19,5 @@ interface UserDAO {
     fun insert(user: User)
 
     @Delete
-    fun delete(review: User)
+    fun delete(user: User)
 }

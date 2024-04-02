@@ -24,7 +24,13 @@ class CountriesApiManager {
         }
     }
 
-    fun getCountryFlag(countryName : String): Call<List<Flag>> {
-        return api.getCountryFlag(countryName);
+    fun getCountryFlag(countryCode : String): Call<Flag> {
+        return api.getCountryFlag(countryCode);
+    }
+
+    suspend fun getCountryByCode(countryCode : String): Country {
+        return withContext(Dispatchers.IO) {
+            api.getCountryByCode(countryCode);
+        }
     }
 }

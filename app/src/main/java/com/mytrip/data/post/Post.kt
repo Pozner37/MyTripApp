@@ -1,12 +1,43 @@
-package com.mytrip.db.post
+package com.mytrip.data.post
 
 import android.content.Context
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.TypeConverter
+import androidx.room.TypeConverters
+import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FieldValue
 import com.mytrip.MyTripApp
 import java.io.Serializable
+
+data class SerializableLatLng(val latitude: Double, val longitude: Double) : Serializable {
+    fun toGoogleLatLng(): LatLng {
+        return LatLng(latitude, longitude)
+    }
+
+    companion object {
+        fun fromGoogleLatLng(latLng: LatLng): SerializableLatLng {
+            return SerializableLatLng(latLng.latitude, latLng.longitude)
+        }
+    }
+}
+
+class LatLngConverter {
+
+    @TypeConverter
+    fun fromLatLng(latLng: SerializableLatLng): String {
+        return "${latLng.latitude},${latLng.longitude}"
+    }
+
+    @TypeConverter
+    fun toLatLng(latLngString: String): SerializableLatLng {
+        val parts = latLngString.split(",")
+        val latitude = parts[0].toDouble()
+        val longitude = parts[1].toDouble()
+        return SerializableLatLng(latitude, longitude)
+    }
+}
 
 @Entity
 data class Post(
@@ -15,6 +46,8 @@ data class Post(
     val userId: String,
     val description: String,
     val country: String,
+    @TypeConverters(LatLngConverter::class)
+    val position: SerializableLatLng, // Use SerializableLatLng instead of LatLng
     var isDeleted: Boolean = false,
     var photo: String? = null,
     var timestamp: Long? = null,
@@ -40,6 +73,7 @@ data class Post(
         const val DESCRIPTION_KEY = "description"
         const val COUNTRY_KEY = "country"
         const val IS_DELETED_KEY = "is_deleted"
+        const val POSITION_KEY = "position"
         private const val POST_LAST_UPDATED = "post_last_updated"
 
         fun fromJSON(json: Map<String, Any>): Post {
@@ -48,7 +82,13 @@ data class Post(
             val country = json[COUNTRY_KEY] as? String ?: ""
             val isDeleted = json[IS_DELETED_KEY] as? Boolean ?: false
             val userId = json[USER_ID_KEY] as? String ?: ""
-            val post = Post(id, userId, description, country, isDeleted)
+
+            val positionJson = json[POSITION_KEY] as? Map<String, Double>
+            val latitude = positionJson?.get("latitude") ?: 0.0
+            val longitude = positionJson?.get("longitude") ?: 0.0
+            val position = SerializableLatLng(latitude, longitude)
+
+            val post = Post(id, userId, description, country,position, isDeleted)
 
             val timestamp: Timestamp? = json[LAST_UPDATED_KEY] as? Timestamp
             timestamp?.let {
@@ -67,7 +107,8 @@ data class Post(
                 LAST_UPDATED_KEY to FieldValue.serverTimestamp(),
                 DESCRIPTION_KEY to description,
                 COUNTRY_KEY to country,
-                IS_DELETED_KEY to isDeleted
+                IS_DELETED_KEY to isDeleted,
+                POSITION_KEY to position
             )
         }
 

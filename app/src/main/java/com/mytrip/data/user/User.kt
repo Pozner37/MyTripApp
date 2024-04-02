@@ -1,14 +1,14 @@
-package com.mytrip.db.user
+package com.mytrip.data.user
 
 import android.content.Context
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.google.firebase.Timestamp
 import com.mytrip.MyTripApp
+import com.google.firebase.Timestamp
+import com.google.firebase.firestore.FieldValue
 
 @Entity
 class User(
-
     @PrimaryKey
     val id: String,
     val firstName: String,
@@ -41,11 +41,11 @@ class User(
             val firstName = json[FIRST_NAME_KEY] as? String ?: ""
             val lastName = json[LAST_NAME_KEY] as? String ?: ""
             val user = User(id, firstName, lastName)
+
             val lastUpdated: Timestamp? = json[LAST_UPDATED_KEY] as? Timestamp
             lastUpdated?.let {
                 user.lastUpdated = it.seconds
             }
-
             return user
         }
     }
@@ -56,6 +56,7 @@ class User(
                 ID_KEY to id,
                 FIRST_NAME_KEY to firstName,
                 LAST_NAME_KEY to lastName,
+                LAST_UPDATED_KEY to FieldValue.serverTimestamp(),
             )
         }
 
@@ -64,6 +65,7 @@ class User(
             return hashMapOf(
                 FIRST_NAME_KEY to firstName,
                 LAST_NAME_KEY to lastName,
+                LAST_UPDATED_KEY to FieldValue.serverTimestamp(),
             )
         }
 
