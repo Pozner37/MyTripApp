@@ -7,9 +7,12 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
@@ -32,6 +35,7 @@ import java.util.UUID
 class CreatePostFragment : Fragment() {
     private lateinit var view: View
     private lateinit var description: TextInputEditText
+    private lateinit var spinner: ProgressBar
     private lateinit var attachPictureButton: ImageButton
     private lateinit var submitButton: MaterialButton
     private lateinit var deviceLocation: Location
@@ -68,18 +72,23 @@ class CreatePostFragment : Fragment() {
     }
 
     private fun initViews(view: View) {
+        spinner = view.findViewById(R.id.create_post_progress)
         description = view.findViewById(R.id.post_description)
         attachPictureButton = view.findViewById(R.id.upload_picture_button)
         imageView = view.findViewById(R.id.selected_image)
         submitButton = view.findViewById(R.id.post_submit)
 
+
         if (args.post.id.isNotEmpty()) {
             description.setText(args.post.description)
+        } else {
+            spinner.visibility = GONE
         }
 
         PostModel.instance.getPostImage(args.post.id) {
             attachedPicture = it
             Picasso.get().load(it).into(imageView)
+            spinner.visibility = GONE
         }
     }
 
@@ -130,6 +139,8 @@ class CreatePostFragment : Fragment() {
             )
         }
 
+        spinner.visibility = VISIBLE
+
         if (newPost != null) {
             if (args.post.id.isNotEmpty()) {
                 PostModel.instance.updatePost(newPost) {
@@ -137,6 +148,8 @@ class CreatePostFragment : Fragment() {
                         PostModel.instance.updatePostImage(newPost.id, attachedPicture) {
                             findNavController().popBackStack()
                         }
+                    } else {
+                        findNavController().popBackStack()
                     }
                 }
             } else {
