@@ -99,7 +99,7 @@ class RegisterActivity : ComponentActivity() {
                             Toast.LENGTH_SHORT
                         )
                             .show()
-                        val intent = Intent(this@RegisterActivity, HomeFragment::class.java)
+                        val intent = Intent(this@RegisterActivity, MainActivity::class.java)
                         startActivity(intent)
                         finish()
                     }

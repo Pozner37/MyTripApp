@@ -97,8 +97,8 @@ class EditMyProfile : Fragment() {
         }
 
         viewModel.user.observe(viewLifecycleOwner) { user ->
-            binding.editTextFirstName.setText("")
-            binding.editTextLastName.setText("")
+            binding.editTextFirstName.setText(user.firstName)
+            binding.editTextLastName.setText(user.lastName)
         }
 
         viewModel.selectedImageURI.observe(viewLifecycleOwner) { uri ->

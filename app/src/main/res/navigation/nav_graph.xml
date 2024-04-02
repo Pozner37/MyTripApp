@@ -53,28 +53,7 @@
             app:destination="@id/editMyProfile"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim" />
-<!--        <action-->
-<!--            android:id="@+id/action_profile_to_myReviews"-->
-    <!--            app:destination="@id/myReviews"-->
-<!--            app:enterAnim="@anim/nav_default_enter_anim"-->
-<!--            app:exitAnim="@anim/nav_default_exit_anim" />-->
     </fragment>
-
-<!--    <fragment-->
-<!--        android:id="@+id/myPost"-->
-<!--        android:name="com.example.watchit.modules.myReviews.MyReviews"-->
-<!--        android:label="fragment_my_reviews"-->
-<!--        tools:layout="@layout/fragment_feed">-->
-<!--        <action-->
-<!--            android:id="@+id/action_myReviews_to_editReview"-->
-<!--            app:destination="@id/editReview"-->
-<!--            app:enterAnim="@anim/nav_default_enter_anim"-->
-<!--            app:exitAnim="@anim/nav_default_exit_anim" />-->
-<!--        <argument-->
-<!--            android:name="selectedReview"-->
-<!--            app:argType="com.example.watchit.data.review.Review" />-->
-<!--    </fragment>-->
-
     <fragment
         android:id="@+id/editMyProfile"
         android:name="com.mytrip.modules.profile.EditMyProfile"

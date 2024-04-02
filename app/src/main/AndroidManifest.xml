@@ -29,7 +29,7 @@
         <activity
             android:name=".modules.login.LoginActivity"
             android:exported="true"
-            android:label="@string/title_activity_feed"
+            android:label="@string/home_fragment_label"
             android:theme="@style/Theme.MyTrip">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
