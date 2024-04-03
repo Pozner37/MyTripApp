@@ -57,7 +57,7 @@
     <fragment
         android:id="@+id/editMyProfile"
         android:name="com.mytrip.modules.profile.EditMyProfile"
-        android:label="fragment_edit_my_profile"
+        android:label="edit my profile"
         tools:layout="@layout/fragment_edit_my_profile">
         <action
             android:id="@+id/action_editMyProfile_to_profile"
