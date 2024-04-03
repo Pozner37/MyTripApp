@@ -21,5 +21,5 @@
     <string name="cancel">Cancel</string>
     <string name="accept">Accept</string>
     <string name="add_post">Add Post</string>
-    <string name="selectimage">selectImage</string>
+    <string name="select_image">selectImage</string>
 </resources>

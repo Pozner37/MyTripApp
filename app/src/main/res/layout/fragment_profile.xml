@@ -31,19 +31,18 @@
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="30dp" />
+        android:layout_height="100dp" />
 
     <Button
         android:id="@+id/MyPostsButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/userprofilebutton"
         android:text="My Posts"
         android:textAlignment="viewStart"
-        android:textColor="#FFFF7B00"
+        android:backgroundTint="#00BFFF"
         android:textSize="20sp"
         android:textAllCaps="false"
-        android:drawableEnd="@drawable/baseline_arrow_forward_ios_24_orange" />
+        android:drawableEnd="@drawable/baseline_black_arrow_forward" />
 
     <Space
         android:layout_width="match_parent"
@@ -53,13 +52,12 @@
         android:id="@+id/EditMyProfileButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/userprofilebutton"
         android:text="Edit My Profile"
         android:textAlignment="viewStart"
-        android:textColor="#FFFF7B00"
+        android:backgroundTint="#00BFFF"
         android:textSize="20sp"
         android:textAllCaps="false"
-        android:drawableEnd="@drawable/baseline_arrow_forward_ios_24_orange" />
+        android:drawableEnd="@drawable/baseline_black_arrow_forward" />
 
     <Space
         android:layout_width="match_parent"
@@ -69,12 +67,11 @@
         android:id="@+id/LogOutButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/userprofilebutton"
         android:text="Logout"
+        android:backgroundTint="#FF0000"
         android:textAlignment="viewStart"
-        android:textColor="#FFFF7B00"
         android:textSize="20sp"
         android:textAllCaps="false"
-        android:drawableEnd="@drawable/baseline_arrow_forward_ios_24_orange" />
+        android:drawableEnd="@drawable/baseline_black_arrow_forward" />
 
 </LinearLayout>
