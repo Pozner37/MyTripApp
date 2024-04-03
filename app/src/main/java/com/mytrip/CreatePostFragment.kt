@@ -55,13 +55,7 @@ class CreatePostFragment : Fragment() {
             R.layout.create_post_fragment, container, false
         )
 
-        val geocoder = context?.let { Geocoder(it, Locale.getDefault()) }
-        val addresses = geocoder?.getFromLocation(args.post.position.latitude, args.post.position.longitude, 1)
-        if (addresses?.size!! > 0) {
-            countryCode = addresses[0].countryCode
-        } else {
-            findNavController().popBackStack()
-        }
+        getDeviceLocation()
         initViews(view)
         handleSubmitButton()
         handleAttachProductPicture()
@@ -69,6 +63,17 @@ class CreatePostFragment : Fragment() {
         requireActivity().findViewById<FloatingActionButton>(R.id.fab).isVisible = false;
 
         return view
+    }
+
+    private fun getDeviceLocation() {
+        val geocoder = context?.let { Geocoder(it, Locale.getDefault()) }
+        val addresses =
+            geocoder?.getFromLocation(args.post.position.latitude, args.post.position.longitude, 1)
+        if (addresses?.size!! > 0) {
+            countryCode = addresses[0].countryCode
+        } else {
+            findNavController().popBackStack()
+        }
     }
 
     private fun initViews(view: View) {
