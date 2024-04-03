@@ -7,5 +7,5 @@
     <string name="upload_picture">Upload Picture</string>
     <string name="describe_your_trip">Describe your trip</string>
     <string name="home">Home</string>
-    <string name="selectimage">selectImage</string>
+    <string name="select_image">selectImage</string>
 </resources>
