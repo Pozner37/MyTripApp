@@ -32,7 +32,7 @@
         android:layout_width="370dp"
         android:layout_height="300sp"
         android:layout_marginTop="20sp"
-        android:contentDescription="@string/selectimage" />
+        android:contentDescription="@string/select_image" />
 
     <ProgressBar
         android:id="@+id/create_post_progress"
@@ -64,6 +64,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:backgroundTint="@color/black"
             android:layout_weight="1"
             android:text="@string/submit" />
 

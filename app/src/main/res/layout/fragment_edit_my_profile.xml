@@ -31,6 +31,7 @@
         android:id="@+id/btnPickImage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:backgroundTint="#00BFFF"
         android:text="choose profile picture" />
 
     <Space
@@ -63,9 +64,8 @@
         android:id="@+id/updateButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/mybutton"
+        android:backgroundTint="#00BFFF"
         android:text="Update"
-        android:textColor="#FFFF7B00"
         android:textSize="20sp" />
 
 </LinearLayout>
